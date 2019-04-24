@@ -1,9 +1,9 @@
 #include "linkedList.h"
 
 void PutValue(LinkedList *list, int n);
-void Converse(LinkedList **head, LinkedList **end, int n);
+LinkedList *Converse(LinkedList **head, int n);
 void FindValue(LinkedList *list, int n, int aim);
-void *Delete(LinkedList *list, int n);
+LinkedList *Delete(LinkedList *list, int n);
 
 int main(int argc, char const *argv[])
 {
@@ -22,7 +22,7 @@ int main(int argc, char const *argv[])
     end->next = NULL;
 
     PutValue(head, n);
-    Converse(&head, &end, n);
+    end = Converse(&head, n);
     head = Delete(head, 7);
     FindValue(head, n, aim);
 
@@ -40,12 +40,11 @@ void PutValue(LinkedList *list, int n)
     }
 }
 
-void Converse(LinkedList **head, LinkedList **end, int n)
+LinkedList *Converse(LinkedList **head, int n)
 {
-    LinkedList *set[3];
+    LinkedList *set[3], *end;
+    end = *head;
     set[0] = *head;
-    *head = *end;
-    *end = set[0];
     set[1] = set[0]->next;
     set[0]->next = NULL;
     set[2] = set[1]->next;
@@ -57,6 +56,8 @@ void Converse(LinkedList **head, LinkedList **end, int n)
     }
     set[(n - 2) % 3]->next = set[n % 3];
     set[(n - 1) % 3]->next = set[(n - 2) % 3];
+    *head = set[(n - 1) % 3];
+    return end;
 }
 
 void FindValue(LinkedList *list, int n, int aim)
@@ -76,7 +77,7 @@ void FindValue(LinkedList *list, int n, int aim)
     }
 }
 
-void *Delete(LinkedList *list, int n)
+LinkedList *Delete(LinkedList *list, int n)
 {
     LinkedList *node, *head;
     if (n == 1)
