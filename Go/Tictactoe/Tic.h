@@ -8,13 +8,32 @@
 
 struct Location
 {
-    int Y;
-    int X;
-} loc;
+    char Y;
+    char X;
+};
 
-void PrintBoard(char board[][3]);
+struct Line
+{
+    char Diag;
+    char Subdiag;
+    char Line;
+    char Row;
+};
+
+struct Point
+{
+    char Count;
+    struct Line Black;
+    struct Line White;
+};
+
+void PrintBoard(char board[][5]);
 short ChangeLine(char change, short loc);
 short ChangeRow(char change, short loc);
-char PutChess(char map, char *turn);
+boolean PutChess(char *map, int turn);
+struct Point InitCover(struct Point point);
+struct Point CountScore(struct Point point);
+void DrawCover(struct Point cover[][5], struct Location loc, int turn);
+boolean WinCheck(struct Point point, char board, int turn);
 
 #endif
