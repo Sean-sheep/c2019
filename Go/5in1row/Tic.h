@@ -6,8 +6,9 @@
 #include <conio.h>
 #include <stdlib.h>
 
-#define Height 5
-#define Length 5
+#define Height 17
+#define Length 17
+#define Score 5
 
 struct Location
 {
@@ -20,8 +21,8 @@ short ChangeLine(char change, short loc);
 short ChangeRow(char change, short loc);
 boolean PutChess(char *map, int turn);
 void CountScore(char cover[][Length][9], struct Location loc);
-void DrawCover(char cover[][Length][9], char board[5][5], struct Location loc, int turn);
+void DrawCover(char cover[][Length][9], char board[][Length], struct Location loc, int turn);
 boolean WinCheck(char cover[][Length][9], struct Location loc, int turn);
-void ChangeSocreOfLine(char cover[][Length][9], char board[5][5], struct Location loc, char Y, char X, char option);
+void ChangeSocreOfLine(char cover[][Length][9], char board[][Length], struct Location loc, char Y, char X, char option);
 
 #endif

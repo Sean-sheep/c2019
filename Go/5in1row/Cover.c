@@ -8,7 +8,7 @@ void CountScore(char cover[][Length][9], struct Location loc)
     }
 }
 
-void DrawCover(char cover[][Length][9], char board[5][5], struct Location loc, int turn)
+void DrawCover(char cover[][Length][9], char board[][Length], struct Location loc, int turn)
 {
     if (turn) //逢单白子,逢双黑子
     {
@@ -52,7 +52,7 @@ void DrawCover(char cover[][Length][9], char board[5][5], struct Location loc, i
     system("pause");*/ //测试用
 }
 
-void ChangeSocreOfLine(char cover[][Length][9], char board[5][5], struct Location loc, char Y, char X, char option)
+void ChangeSocreOfLine(char cover[][Length][9], char board[][Length], struct Location loc, char Y, char X, char option)
 {
     cover[loc.Y + Y][loc.X + X][option] += cover[loc.Y][loc.X][option];
 

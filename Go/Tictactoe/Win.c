@@ -1,8 +1,8 @@
 #include "Tic.h"
 
-boolean WinCheck(struct Point point, char board, int turn)
+boolean WinCheck(char cover[][Length][9], struct Location loc, int turn)
 {
-    if (point.White.Diag >= 3 || point.White.Line >= 3 || point.White.Row >= 3 || point.White.Subdiag >= 3 || point.Black.Diag >= 3 || point.Black.Line >= 3 || point.Black.Row >= 3 || point.Black.Subdiag >= 3)
+    if (cover[loc.Y][loc.X][1] >= 3 || cover[loc.Y][loc.X][2] >= 3 || cover[loc.Y][loc.X][3] >= 3 || cover[loc.Y][loc.X][4] >= 3 || cover[loc.Y][loc.X][5] >= 3 || cover[loc.Y][loc.X][6] >= 3 || cover[loc.Y][loc.X][7] >= 3 || cover[loc.Y][loc.X][8] >= 3)
     {
         return 0;
     }
