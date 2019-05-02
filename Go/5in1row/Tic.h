@@ -32,7 +32,7 @@ void ChangeSocreOfLine(char cover[][Length][9], char board[][Length], struct Loc
 boolean WinCheck(char cover[][Length][9], struct Location loc, int turn);
 //AI
 struct Location AI(char cover[][Length][9], char board[][Length]);
-void CountScore(char cover[][Length][9], struct Location loc, int turn);
+void CountScore(char cover[][Length][9], struct Location loc, int option);
 //Test
 void InitRecord();
 void PrintCover(char cover[][Length][9]);

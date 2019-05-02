@@ -2,7 +2,7 @@
 
 void DrawCover(char cover[][Length][9], char board[][Length], struct Location loc, int turn)
 {
-    if (turn) //逢单白子,逢双黑子
+    if (turn)               //逢单白子,逢双黑子
     {
         //[1]White Diag 对角线上前后及自身共三个点的对角线值均增加(下同)
         ++cover[loc.Y][loc.X][1];
@@ -20,8 +20,6 @@ void DrawCover(char cover[][Length][9], char board[][Length], struct Location lo
         ++cover[loc.Y][loc.X][4];
         ChangeSocreOfLine(cover, board, loc, -1, 1, 4);
         ChangeSocreOfLine(cover, board, loc, 1, -1, 4);
-        EveryPoint(cover, loc); //Test
-        CountScore(cover, loc, turn % 2);
     }
     else
     { //[5]Black Diag
@@ -40,9 +38,9 @@ void DrawCover(char cover[][Length][9], char board[][Length], struct Location lo
         ++cover[loc.Y][loc.X][8];
         ChangeSocreOfLine(cover, board, loc, -1, 1, 8);
         ChangeSocreOfLine(cover, board, loc, 1, -1, 8);
-        EveryPoint(cover, loc); //Test
-        CountScore(cover, loc, turn % 2);
     }
+    EveryPoint(cover, loc); //Test
+    EveryStep(cover); //Test
 }
 
 void ChangeSocreOfLine(char cover[][Length][9], char board[][Length], struct Location loc, char Y, char X, char option)
@@ -57,8 +55,11 @@ void ChangeSocreOfLine(char cover[][Length][9], char board[][Length], struct Loc
         {
             cover[loc.Y + Y][loc.X + X][option] += cover[loc.Y][loc.X][option];
         }
+        loc.Y += Y;
+        loc.X += X;
+        CountScore(cover, loc, option);
     }
-    if (option >= 1 && option <= 4 && board[loc.Y + Y][loc.X + X] == 'W')
+    else if (option >= 1 && option <= 4 && board[loc.Y + Y][loc.X + X] == 'W')
     {
         cover[loc.Y + Y][loc.X + X][option] = cover[loc.Y][loc.X][option];
         loc.Y += Y;
