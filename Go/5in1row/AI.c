@@ -28,7 +28,7 @@ struct Location AI(char cover[][Length][9], char board[][Length])
 }
 
 void
-CountScore(char cover[][Length][9], struct Location loc, int option)
+CountScore(char cover[][Length][9], struct Location loc, int option, char board[][Length], char dY, char dX)
 {
     cover[loc.Y][loc.X][0] = 0;
     for (size_t i = 1; i < 9; i++)
@@ -40,11 +40,32 @@ CountScore(char cover[][Length][9], struct Location loc, int option)
             break;
 
         case 3:
-            cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] + 1;
+            if (board[loc.Y + 4 * dY][loc.X + 4 * dX] > 0 && board[loc.Y + 4 * dY][loc.X + 4 * dX] < 10 && (dX * 2 + dY) >= 0)
+            {
+                if ((option - 1) / 4) //5~8为黑，1~4为白
+                {
+                    cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] * 3;
+                }
+                else
+                {
+                    cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] * 2;
+                }
+            }
+            else
+            {
+                cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i];
+            }
             break;
 
         case 4:
-            cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] * 2;
+            if ((option - 1) / 4) //5~8为黑，1~4为白
+            {
+                cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] * 4;
+            }
+            else
+            {
+                cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] * 3;
+            }
             break;
 
         default:

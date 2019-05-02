@@ -32,7 +32,7 @@ void ChangeSocreOfLine(char cover[][Length][9], char board[][Length], struct Loc
 boolean WinCheck(char cover[][Length][9], struct Location loc, int turn);
 //AI
 struct Location AI(char cover[][Length][9], char board[][Length]);
-void CountScore(char cover[][Length][9], struct Location loc, int option);
+void CountScore(char cover[][Length][9], struct Location loc, int option, char board[][Length], char dY, char dX);//计算下个点的价值，参数中包括当前点对下个点的相对位置
 //Test
 void InitRecord();
 void PrintCover(char cover[][Length][9]);

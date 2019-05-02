@@ -142,7 +142,6 @@ boolean TwoPlayer(char board[Height][Length], int turn, boolean win, struct Loca
     }
     return turn % 2;
 }
-//单人模式其实没写
 
 boolean SinglePlayer(char board[Height][Length], int turn, boolean win, struct Location loc, char cover[Height][Length][9], COORD coord, HANDLE handle_out)
 {
@@ -159,24 +158,12 @@ boolean SinglePlayer(char board[Height][Length], int turn, boolean win, struct L
             loc = AI(cover, board);
             PutChess(&board[loc.Y][loc.X], turn);
             DrawCover(cover, board, loc, turn % 2);
-
-            /*
-            loc.Y = coord.Y;
-            loc.X = coord.X;
-            coord.Y = 20;
-            coord.X = 0;
-            SetConsoleCursorPosition(handle_out, coord);
-            PrintCover(cover);
-            coord.Y = loc.Y;
-            coord.X = loc.X;
-            SetConsoleCursorPosition(handle_out, coord);
-            system("pause");
-            */
-
             win = WinCheck(cover, loc, turn % 2);
             ++turn;
             system("cls");
             PrintBoard(board);
+            coord.Y = loc.Y - 1;
+            coord.X = (loc.X - 1) * 2;
             SetConsoleCursorPosition(handle_out, coord);
         }
         else
@@ -209,20 +196,6 @@ boolean SinglePlayer(char board[Height][Length], int turn, boolean win, struct L
                     loc.Y = coord.Y + 1;
                     loc.X = coord.X / 2 + 1;
                     DrawCover(cover, board, loc, turn % 2);
-
-                    /*
-                    loc.Y = coord.Y;
-                    loc.X = coord.X;
-                    coord.Y = 20;
-                    coord.X = 0;
-                    SetConsoleCursorPosition(handle_out, coord);
-                    PrintCover(cover);
-                    coord.Y = loc.Y;
-                    coord.X = loc.X;
-                    SetConsoleCursorPosition(handle_out, coord);
-                    system("pause");
-                    */
-
                     win = WinCheck(cover, loc, turn % 2);
                     ++turn;
                     system("cls");
