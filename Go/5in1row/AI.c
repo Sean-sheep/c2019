@@ -11,7 +11,11 @@ struct Location AI(char cover[][Length][9], char board[][Length])
         {
             if (board[i][j] > 0 && board[i][j] < 10 && cover[i][j][0] >= value)
             {
-                value = cover[i][j][0];
+                if (cover[i][j][0] > value)
+                {
+                    value = cover[i][j][0];
+                    t = 0;
+                }
                 set[t].Y = i;
                 set[t].X = j;
                 ++t;
@@ -39,8 +43,25 @@ CountScore(char cover[][Length][9], struct Location loc, int turn)
     */
     for (size_t i = 0; i < 4; i++)
     {
-        Y = i / 3 - 1;
-        X = i % 3 - 1;
+        switch (i)
+        {
+        case 0:
+            X = 1;
+            Y = 1;
+            break;
+        case 1:
+            X = 1;
+            Y = 0;
+            break;
+        case 2:
+            X = 0;
+            Y = 1;
+            break;
+        case 3:
+            X = 1;
+            Y = -1;
+            break;
+        }
         if (cover[loc.Y][loc.X][i + 5 + turn] > 1 || cover[loc.Y + Y][loc.X + X][0] < 1)
         {
             cover[loc.Y + Y][loc.X + X][0] += cover[loc.Y][loc.X][i + 5 + turn];
@@ -49,6 +70,6 @@ CountScore(char cover[][Length][9], struct Location loc, int turn)
         {
             cover[loc.Y - Y][loc.X - X][0] += cover[loc.Y][loc.X][i + 5 + turn];
         }
-        EveryStep(cover); //Test
     }
+    EveryStep(cover); //Test
 }

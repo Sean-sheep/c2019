@@ -27,7 +27,8 @@ int main(int argc, char const *argv[])
     char cover[Height][Length][9] = {0};
     srand((unsigned)time(NULL));
     system("color f0");
-    
+
+    InitRecord(); //测试用
 
     COORD coord;                                         //屏幕上的坐标
     HANDLE handle_out = GetStdHandle(STD_OUTPUT_HANDLE); //获得标准输出设备句柄

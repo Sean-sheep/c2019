@@ -34,6 +34,7 @@ boolean WinCheck(char cover[][Length][9], struct Location loc, int turn);
 struct Location AI(char cover[][Length][9], char board[][Length]);
 void CountScore(char cover[][Length][9], struct Location loc, int turn);
 //Test
+void InitRecord();
 void PrintCover(char cover[][Length][9]);
 void EveryStep(char cover[][Length][9]);
 void EveryPoint(char cover[][Length][9], struct Location loc);

@@ -16,6 +16,13 @@ void PrintCover(char cover[][Length][9])
     }
 }
 
+void InitRecord()
+{
+    FILE *fp;
+    fp = fopen("¼ÇÂ¼.txt", "w");
+    fclose(fp);
+}
+
 void EveryStep(char cover[][Length][9])
 {
     FILE *fp;
@@ -33,6 +40,7 @@ void EveryStep(char cover[][Length][9])
         fprintf(fp, "\n");
     }
     fprintf(fp, "\n \n");
+    fclose(fp);
 }
 
 void EveryPoint(char cover[][Length][9], struct Location loc)
@@ -50,4 +58,5 @@ void EveryPoint(char cover[][Length][9], struct Location loc)
         fprintf(fp, "%d ", cover[loc.Y][loc.X][i]);
     }
     fprintf(fp, "\n");
+    fclose(fp);
 }
