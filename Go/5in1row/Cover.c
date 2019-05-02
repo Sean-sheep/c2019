@@ -1,13 +1,5 @@
 #include "Tic.h"
 
-void CountScore(char cover[][Length][9], struct Location loc)
-{
-    for (size_t i = 1; i < 9; i++)
-    {
-        cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i];
-    }
-}
-
 void DrawCover(char cover[][Length][9], char board[][Length], struct Location loc, int turn)
 {
     if (turn) //逢单白子,逢双黑子
@@ -28,6 +20,8 @@ void DrawCover(char cover[][Length][9], char board[][Length], struct Location lo
         ++cover[loc.Y][loc.X][4];
         ChangeSocreOfLine(cover, board, loc, -1, 1, 4);
         ChangeSocreOfLine(cover, board, loc, 1, -1, 4);
+        EveryPoint(cover, loc); //Test
+        CountScore(cover, loc, turn % 2);
     }
     else
     { //[5]Black Diag
@@ -46,24 +40,34 @@ void DrawCover(char cover[][Length][9], char board[][Length], struct Location lo
         ++cover[loc.Y][loc.X][8];
         ChangeSocreOfLine(cover, board, loc, -1, 1, 8);
         ChangeSocreOfLine(cover, board, loc, 1, -1, 8);
+        EveryPoint(cover, loc); //Test
+        CountScore(cover, loc, turn % 2);
     }
-    CountScore(cover, loc);
-    /*printf("%d, %d %d %d %d, %d %d %d %d",cover[loc.Y][loc.X][0],cover[loc.Y][loc.X][5],cover[loc.Y][loc.X][6],cover[loc.Y][loc.X][7],cover[loc.Y][loc.X][8],cover[loc.Y][loc.X][1],cover[loc.Y][loc.X][2],cover[loc.Y][loc.X][3],cover[loc.Y][loc.X][4]);
-    system("pause");*/ //测试用
 }
 
 void ChangeSocreOfLine(char cover[][Length][9], char board[][Length], struct Location loc, char Y, char X, char option)
 {
-    cover[loc.Y + Y][loc.X + X][option] += cover[loc.Y][loc.X][option];
-
+    if (board[loc.Y + Y][loc.X + X] > 0 && board[loc.Y + Y][loc.X + X] < 10) //下个点没子
+    {
+        if (board[loc.Y + 2 * Y][loc.X + 2 * X] > 0 && board[loc.Y + 2 * Y][loc.X + 2 * X] < 10) //下下点也没子
+        {
+            cover[loc.Y + Y][loc.X + X][option] = cover[loc.Y][loc.X][option];
+        }
+        else
+        {
+            cover[loc.Y + Y][loc.X + X][option] += cover[loc.Y][loc.X][option];
+        }
+    }
     if (option >= 1 && option <= 4 && board[loc.Y + Y][loc.X + X] == 'W')
     {
+        cover[loc.Y + Y][loc.X + X][option] = cover[loc.Y][loc.X][option];
         loc.Y += Y;
         loc.X += X;
         ChangeSocreOfLine(cover, board, loc, Y, X, option);
     }
     else if (option >= 5 && option <= 8 && board[loc.Y + Y][loc.X + X] == 'B')
     {
+        cover[loc.Y + Y][loc.X + X][option] = cover[loc.Y][loc.X][option];
         loc.Y += Y;
         loc.X += X;
         ChangeSocreOfLine(cover, board, loc, Y, X, option);
