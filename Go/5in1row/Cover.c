@@ -2,7 +2,7 @@
 
 void DrawCover(char cover[][Length][9], char board[][Length], struct Location loc, int turn)
 {
-    if (turn)               //逢单白子,逢双黑子
+    if (turn) //逢单白子,逢双黑子
     {
         //[1]White Diag 对角线上前后及自身共三个点的对角线值均增加(下同)
         ++cover[loc.Y][loc.X][1];
@@ -40,7 +40,7 @@ void DrawCover(char cover[][Length][9], char board[][Length], struct Location lo
         ChangeSocreOfLine(cover, board, loc, 1, -1, 8);
     }
     EveryPoint(cover, loc); //Test
-    EveryStep(cover); //Test
+    EveryStep(cover);       //Test
 }
 
 void ChangeSocreOfLine(char cover[][Length][9], char board[][Length], struct Location loc, char Y, char X, char option)

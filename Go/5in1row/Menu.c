@@ -44,13 +44,14 @@ int main(int argc, char const *argv[])
     printf(
         "                           ╔══════════╗\n"
         "                           ║                    ║\n"
-        "                           ║   请输入数字选择   ║\n"
+        "                           ║   请按数字键选择   ║\n"
         "                           ║                    ║\n"
         "                           ║  1 - 单人游戏      ║\n"
         "                           ║  2 - 双人游戏      ║\n"
         "                           ║  3 - 退出程序      ║\n"
         "                           ║                    ║\n"
         "                           ╚══════════╝\n");
+    printf("\n PS：进入游戏后 w s a d 控制上下左右，空格键落子，黑子先行\n");
 
     switch (getch() - 48)
     {
