@@ -30,26 +30,80 @@ struct Location AI(char cover[][Length][9], char board[][Length])
 void
 CountScore(char cover[][Length][9], struct Location loc, int option, char board[][Length], char dY, char dX)
 {
+    for (size_t i = max(1, loc.Y - 3); i < min(loc.Y + 2, Height - 1); i++)
+    {
+        for (size_t t = max(1, loc.X - 3); t < min(loc.X + 2, Length - 1); t++)
+        {
+            cover[i][t][0] -= (cover[i][t][0] > 0);
+        }
+    }
+
     cover[loc.Y][loc.X][0] = 0;
     for (size_t i = 1; i < 9; i++)
     {
         switch (cover[loc.Y][loc.X][i])
         {
         case 2:
-            cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i];
+            if (board[loc.Y + dY][loc.X + dX] > 0 && board[loc.Y + dY][loc.X + dX] < 10) //前面不是死胡同
+            {
+                cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i];
+            }
+            else
+            {
+                ++cover[loc.Y][loc.X][0];
+            }
+
             break;
 
         case 3:
-            if (board[loc.Y + 4 * dY][loc.X + 4 * dX] > 0 && board[loc.Y + 4 * dY][loc.X + 4 * dX] < 10 && (dX * 2 + dY) >= 0)
+            if (board[loc.Y + dY][loc.X + dX] > 0 && board[loc.Y + dY][loc.X + dX] < 10) //前面不是死胡同
             {
-                if ((option - 1) / 4) //5~8为黑，1~4为白
+                if (board[loc.Y - 4 * dY][loc.X - 4 * dX] > 0 && board[loc.Y - 4 * dY][loc.X - 4 * dX] < 10 && (dX * 2 + dY) >= 0) //双活三
                 {
-                    cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] * 3;
+                    if ((option - 1) / 4) //5~8为黑，1~4为白
+                    {
+                        cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] * 2;
+                    }
+                    else
+                    {
+                        cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] * 3;
+                    }
                 }
-                else
+                else //单活三
                 {
-                    cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] * 2;
+                    if ((option - 1) / 4) //5~8为黑，1~4为白
+                    {
+                        cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] * 2;
+                    }
+                    else
+                    {
+                        cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i];
+                    }
                 }
+
+                /*
+                if (board[loc.Y - 4 * dY][loc.X - 4 * dX] > 0 && board[loc.Y - 4 * dY][loc.X - 4 * dX] < 10 && (dX * 2 + dY) >= 0) //双活三的一侧
+                {
+                    if ((option - 1) / 4) //5~8为黑，1~4为白
+                    {
+                        cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] * 2;
+                    }
+                    else
+                    {
+                        cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] * 3;
+                    }
+                }
+                else //双活三的另一侧
+                {
+                    if ((option - 1) / 4) //5~8为黑，1~4为白
+                    {
+                        cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] * 2;
+                    }
+                    else
+                    {
+                        cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i];
+                    }
+                }*/
             }
             else
             {
@@ -60,11 +114,11 @@ CountScore(char cover[][Length][9], struct Location loc, int option, char board[
         case 4:
             if ((option - 1) / 4) //5~8为黑，1~4为白
             {
-                cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] * 4;
+                cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] * 3;
             }
             else
             {
-                cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] * 3;
+                cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] * 4;
             }
             break;
 
@@ -72,8 +126,6 @@ CountScore(char cover[][Length][9], struct Location loc, int option, char board[
             break;
         }
     }
-    if (cover[loc.Y][loc.X][0] == 0)
-    {
-        ++cover[loc.Y][loc.X][0];
-    }
+    cover[loc.Y][loc.X][0] += (cover[loc.Y][loc.X][0] <= 0);
+    cover[loc.Y][loc.X][0] *= 3;
 }
