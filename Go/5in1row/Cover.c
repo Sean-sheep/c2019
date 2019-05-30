@@ -1,10 +1,10 @@
-#include "Tic.h"
+#include "Cover.h"
 
-void DrawCover(char cover[][Length][9], char board[][Length], struct Location loc, int turn)
+void DrawCover(char cover[][_Length_][Pool], char board[][_Length_], struct Location loc, int turn)
 {
-    EveryPoint(cover, loc); //Test
-    EveryStep(cover);       //Test
-    if (turn)               //逢单白子,逢双黑子
+    EveryPoint(cover, loc, turn); //Test
+    EveryStep(cover);             //Test
+    if (turn)                     //逢单白子,逢双黑子
     {
         //[1]White Diag 对角线上前后及自身共三个点的对角线值均增加(下同)
         ++cover[loc.Y][loc.X][1];
@@ -43,7 +43,7 @@ void DrawCover(char cover[][Length][9], char board[][Length], struct Location lo
     }
 }
 
-void ChangeSocreOfLine(char cover[][Length][9], char board[][Length], struct Location loc, char Y, char X, char option)
+void ChangeSocreOfLine(char cover[][_Length_][Pool], char board[][_Length_], struct Location loc, char Y, char X, char option)
 {
     if (board[loc.Y + Y][loc.X + X] > 0 && board[loc.Y + Y][loc.X + X] < 10) //下个点没子
     {

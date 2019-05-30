@@ -1,8 +1,8 @@
-#include "Tic.h"
+#include "Menu.h"
 
 int main(int argc, char const *argv[])
 {
-    char board[Height][Length] = {
+    char board[Height][_Length_] = {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0},
         {0, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 0},
@@ -24,7 +24,7 @@ int main(int argc, char const *argv[])
     int turn = 0;
     boolean win = 1;
     struct Location loc = {0, 0};
-    char cover[Height][Length][9] = {0};
+    char cover[Height][_Length_][Pool] = {0};
     srand((unsigned)time(NULL));
     system("color f0");
 
@@ -92,7 +92,7 @@ int main(int argc, char const *argv[])
     return 0;
 }
 
-boolean TwoPlayer(char board[Height][Length], int turn, boolean win, struct Location loc, char cover[Height][Length][9], COORD coord, HANDLE handle_out)
+boolean TwoPlayer(char board[Height][_Length_], int turn, boolean win, struct Location loc, char cover[Height][_Length_][Pool], COORD coord, HANDLE handle_out)
 {
     system("cls");
     PrintBoard(board);
@@ -143,7 +143,7 @@ boolean TwoPlayer(char board[Height][Length], int turn, boolean win, struct Loca
     return turn % 2;
 }
 
-boolean SinglePlayer(char board[Height][Length], int turn, boolean win, struct Location loc, char cover[Height][Length][9], COORD coord, HANDLE handle_out)
+boolean SinglePlayer(char board[Height][_Length_], int turn, boolean win, struct Location loc, char cover[Height][_Length_][Pool], COORD coord, HANDLE handle_out)
 {
     int t = 0;
 
