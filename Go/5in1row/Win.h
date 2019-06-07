@@ -1,9 +1,9 @@
-#if !defined(_Win_)
-#define _Win_
+#if !defined(_Win_H)
+#define Win_H
 
 #include "Const.h"
 #include <windows.h>
 
-boolean WinCheck(char cover[][_Length_][Pool], struct Location loc, int turn);
+boolean WinCheck(char cover[][Length][Pool], struct Location loc, int turn);
 
 #endif

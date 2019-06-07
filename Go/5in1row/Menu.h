@@ -1,5 +1,5 @@
-#if !defined(_Menu_)
-#define _Menu_
+#if !defined(_Menu_H)
+#define Menu_H
 
 #include "AI.h"
 #include "Win.h"
@@ -11,7 +11,7 @@
 #include <conio.h>
 #include <windows.h>
 
-boolean TwoPlayer(char board[][_Length_], int turn, boolean win, struct Location loc, char cover[][_Length_][Pool], COORD coord, HANDLE handle_out);
-boolean SinglePlayer(char board[][_Length_], int turn, boolean win, struct Location loc, char cover[][_Length_][Pool], COORD coord, HANDLE handle_out);
+boolean TwoPlayer(char board[][Length], int turn, boolean win, struct Location loc, char cover[][Length][Pool], COORD coord, HANDLE handle_out);
+boolean SinglePlayer(char board[][Length], int turn, boolean win, struct Location loc, char cover[][Length][Pool], COORD coord, HANDLE handle_out);
 
 #endif

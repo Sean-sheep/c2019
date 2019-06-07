@@ -1,5 +1,5 @@
-#if !defined(_Cover_)
-#define _Cover_
+#if !defined(_Cover_H)
+#define Cover_H
 
 
 
@@ -9,7 +9,7 @@
 
 #include <windows.h>
 
-void DrawCover(char cover[][_Length_][Pool], char board[][_Length_], struct Location loc, int turn);
-void ChangeSocreOfLine(char cover[][_Length_][Pool], char board[][_Length_], struct Location loc, char Y, char X, char option);
+void DrawCover(char cover[][Length][Pool], char board[][Length], struct Location loc, int turn);
+void ChangeSocreOfLine(char cover[][Length][Pool], char board[][Length], struct Location loc, char Y, char X, char option);
 
 #endif

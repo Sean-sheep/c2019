@@ -1,6 +1,6 @@
 #include "Cover.h"
 
-void DrawCover(char cover[][_Length_][Pool], char board[][_Length_], struct Location loc, int turn)
+void DrawCover(char cover[][Length][Pool], char board[][Length], struct Location loc, int turn)
 {
     EveryPoint(cover, loc, turn); //Test
     EveryStep(cover);             //Test
@@ -43,7 +43,7 @@ void DrawCover(char cover[][_Length_][Pool], char board[][_Length_], struct Loca
     }
 }
 
-void ChangeSocreOfLine(char cover[][_Length_][Pool], char board[][_Length_], struct Location loc, char Y, char X, char option)
+void ChangeSocreOfLine(char cover[][Length][Pool], char board[][Length], struct Location loc, char Y, char X, char option)
 {
     if (board[loc.Y + Y][loc.X + X] > 0 && board[loc.Y + Y][loc.X + X] < 10) //下个点没子
     {

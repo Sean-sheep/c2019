@@ -1,6 +1,6 @@
 #include "Win.h"
 
-boolean WinCheck(char cover[][_Length_][Pool], struct Location loc, int turn)
+boolean WinCheck(char cover[][Length][Pool], struct Location loc, int turn)
 {
 
     if (turn == 1 && (cover[loc.Y][loc.X][1] >= Score || cover[loc.Y][loc.X][2] >= Score || cover[loc.Y][loc.X][3] >= Score || cover[loc.Y][loc.X][4] >= Score))

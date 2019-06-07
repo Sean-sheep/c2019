@@ -1,9 +1,9 @@
 #include "AI.h"
 
-struct Location AI(char cover[][_Length_][Pool], char board[][_Length_])
+struct Location AI(char cover[][Length][Pool], char board[][Length])
 {
-    char SubCover[Height][_Length_][Pool], SubBoard[Height][_Length_];
-    strcpy(SubCover[Height][_Length_], cover[Height][_Length_]);
+    char SubCover[Height][Length][Pool], SubBoard[Height][Length];
+    strcpy(SubCover[Height][Length], cover[Height][Length]);
     strcpy(SubBoard[Height], board[Height]);
 
     return Decide(SubCover, SubBoard);
@@ -13,12 +13,11 @@ struct Location AI(char cover[][_Length_][Pool], char board[][_Length_])
 }
 
 void
-CountScore(char cover[][_Length_][Pool], struct Location loc, int option, char board[][_Length_], char dY, char dX)
+CountScore(char cover[][Length][Pool], struct Location loc, int option, char board[][Length], char dY, char dX)
 {
-<<<<<<< HEAD
     for (size_t i = 1; i < Height; i++)
     {
-        for (size_t j = 1; j < _Length_; j++)
+        for (size_t j = 1; j < Length; j++)
         {
             cover[i][j][0] = cover[i][j][Pool] = 0;
 
@@ -109,42 +108,15 @@ CountScore(char cover[][_Length_][Pool], struct Location loc, int option, char b
                 default:
                     break;
                 }
-=======
-    cover[loc.Y][loc.X][0] = 0;
-    for (size_t i = 1; i < 9; i++)
-    {
-        switch (cover[loc.Y][loc.X][i])
-        {
-        case 2:
-            cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i];
-            break;
-
-        case 3:
-            if (board[loc.Y + 4 * dY][loc.X + 4 * dX] > 0 && board[loc.Y + 4 * dY][loc.X + 4 * dX] < 10 && (dX * 2 + dY) >= 0)
-            {
-                if ((option - 1) / 4) //5~8Ϊ�ڣ�1~4Ϊ��
-                {
-                    cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] * 3;
-                }
-                else
-                {
-                    cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] * 2;
-                }
-            }
-            else
-            {
-                cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i];
->>>>>>> parent of b0d67a5... 应该是优化了AI
             }
             cover[i][j][0] += (cover[i][j][0] <= 0);
         }
     }
 }
 
-<<<<<<< HEAD
 // for (size_t i = 1; i < Height - 1; i++)
 // {
-//     for (size_t t = 1; t < _Length_ - 1; t++)
+//     for (size_t t = 1; t < Length - 1; t++)
 //     {
 //         cover[i][t][0] -= (cover[i][t][0] > 0);
 //     }
@@ -243,13 +215,13 @@ CountScore(char cover[][_Length_][Pool], struct Location loc, int option, char b
 // cover[loc.Y][loc.X][0] += (cover[loc.Y][loc.X][0] <= 0);
 // cover[loc.Y][loc.X][0] *= 20;
 
-struct Location Decide(char cover[][_Length_][Pool], char board[][_Length_])
+struct Location Decide(char cover[][Length][Pool], char board[][Length])
 {
     int t = 0, value = 1;
     struct Location set[225];
     for (size_t i = 1; i < Height - 1; i++)
     {
-        for (size_t j = 1; j < _Length_ - 1; j++)
+        for (size_t j = 1; j < Length - 1; j++)
         {
             if (board[i][j] > 0 && board[i][j] < 10 && cover[i][j][0] >= value - 10)
             {
@@ -261,26 +233,8 @@ struct Location Decide(char cover[][_Length_][Pool], char board[][_Length_])
                 set[t].Y = i;
                 set[t].X = j;
                 ++t;
-=======
-        case 4:
-            if ((option - 1) / 4) //5~8Ϊ�ڣ�1~4Ϊ��
-            {
-                cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] * 4;
-            }
-            else
-            {
-                cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] * 3;
->>>>>>> parent of b0d67a5... 应该是优化了AI
             }
         }
     }
-<<<<<<< HEAD
     t = (rand() % t);
 }
-=======
-    if (cover[loc.Y][loc.X][0] == 0)
-    {
-        ++cover[loc.Y][loc.X][0];
-    }
-}
->>>>>>> parent of b0d67a5... 应该是优化了AI

@@ -1,8 +1,8 @@
-#ifndef _Const_H_
-#define _Const_H_
+#ifndef Const_H
+#define Const_H
 
+#define Length 17
 #define Height 17
-#define _Length_ 17
 #define Score 5
 #define Pool 10
 

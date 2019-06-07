@@ -1,10 +1,10 @@
 #include "Test.h"
 
-void PrintCover(char cover[][_Length_][Pool])
+void PrintCover(char cover[][Length][Pool])
 {
     for (size_t i = 1; i < Height - 1; i++)
     {
-        for (size_t t = 1; t < _Length_ - 1; t++)
+        for (size_t t = 1; t < Length - 1; t++)
         {
             printf("%2d,", cover[i][t][0]);
         }
@@ -19,13 +19,13 @@ void InitRecord()
     fclose(fp);
 }
 
-void EveryStep(char cover[][_Length_][Pool])
+void EveryStep(char cover[][Length][Pool])
 {
     FILE *fp;
     fp = fopen("¼ÇÂ¼.txt", "a");
     for (size_t i = 1; i < Height - 1; i++)
     {
-        for (size_t t = 1; t < _Length_ - 1; t++)
+        for (size_t t = 1; t < Length - 1; t++)
         {
             if (cover[i][t][0] < 10)
             {
@@ -39,7 +39,7 @@ void EveryStep(char cover[][_Length_][Pool])
     fclose(fp);
 }
 
-void EveryPoint(char cover[][_Length_][Pool], struct Location loc, int turn)
+void EveryPoint(char cover[][Length][Pool], struct Location loc, int turn)
 {
     FILE *fp;
     fp = fopen("¼ÇÂ¼.txt", "a");
