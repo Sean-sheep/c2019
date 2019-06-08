@@ -6,8 +6,8 @@
 #include <stdio.h>
 
 void InitRecord();
-void PrintCover(char cover[][Length][Pool]);
-void EveryStep(char cover[][Length][Pool]);
-void EveryPoint(char cover[][Length][Pool], struct Location loc, int turn);
+void PrintCover(char cover[][_Length][Pool]);
+void EveryStep(char cover[][_Length][Pool]);
+void EveryPoint(char cover[][_Length][Pool], struct Location loc, int turn);
 
 #endif

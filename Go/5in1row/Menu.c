@@ -2,7 +2,7 @@
 
 int main(int argc, char const *argv[])
 {
-    char board[Height][Length] = {
+    char board[Height][_Length] = {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0},
         {0, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 0},
@@ -21,10 +21,10 @@ int main(int argc, char const *argv[])
         {0, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
-    int turn = 0;
+    int turn = 0; //传入原值，返回值%2
     boolean win = 1;
     struct Location loc = {0, 0};
-    char cover[Height][Length][Pool] = {0};
+    char cover[Height][_Length][Pool] = {0};
     srand((unsigned)time(NULL));
     system("color f0");
 
@@ -62,7 +62,15 @@ int main(int argc, char const *argv[])
     case 2:
         turn = TwoPlayer(board, turn, win, loc, cover, coord, handle_out);
         break;
-
+        //  白子先手，然鹅还是弟弟
+    // case 3:
+    //     loc.Y = rand() % 5 + 5;
+    //     loc.X = rand() % 5 + 5;
+    //     PutChess(&board[loc.Y][loc.X], 1);
+    //     DrawCover(cover, board, loc, 1);
+    //     turn = SinglePlayer(board, turn, win, loc, cover, coord, handle_out);
+    //     break;
+        
     default:
         return 0;
     }
@@ -73,7 +81,7 @@ int main(int argc, char const *argv[])
     SetConsoleCursorInfo(handle_out, &cci);      //设置光标尺寸
     SetConsoleCursorPosition(handle_out, coord); //设置光标位置
 
-    switch (turn % 2) //因为结束时turn++，所以逢双白子,逢单黑子
+    switch (turn) //因为结束时turn++，所以逢双白子,逢单黑子
     {
     case 0:
         printf("The white win");
@@ -92,7 +100,7 @@ int main(int argc, char const *argv[])
     return 0;
 }
 
-boolean TwoPlayer(char board[Height][Length], int turn, boolean win, struct Location loc, char cover[Height][Length][Pool], COORD coord, HANDLE handle_out)
+boolean TwoPlayer(char board[Height][_Length], int turn, boolean win, struct Location loc, char cover[Height][_Length][Pool], COORD coord, HANDLE handle_out)
 {
     system("cls");
     PrintBoard(board);
@@ -127,8 +135,8 @@ boolean TwoPlayer(char board[Height][Length], int turn, boolean win, struct Loca
             {
                 loc.Y = coord.Y + 1;
                 loc.X = coord.X / 2 + 1;
-                DrawCover(cover, board, loc, turn % 2);
-                win = WinCheck(cover, loc, turn % 2);
+                DrawCover(cover, board, loc, turn);
+                win = WinCheck(cover, loc, turn);
                 ++turn;
             }
             system("cls");
@@ -143,7 +151,7 @@ boolean TwoPlayer(char board[Height][Length], int turn, boolean win, struct Loca
     return turn % 2;
 }
 
-boolean SinglePlayer(char board[Height][Length], int turn, boolean win, struct Location loc, char cover[Height][Length][Pool], COORD coord, HANDLE handle_out)
+boolean SinglePlayer(char board[Height][_Length], int turn, boolean win, struct Location loc, char cover[Height][_Length][Pool], COORD coord, HANDLE handle_out)
 {
     int t = 0;
 
@@ -155,10 +163,10 @@ boolean SinglePlayer(char board[Height][Length], int turn, boolean win, struct L
     {
         if (turn % 2) //逢单电脑执白子
         {
-            loc = AI(cover, board);
+            loc = AI(cover, board, turn);
             PutChess(&board[loc.Y][loc.X], turn);
-            DrawCover(cover, board, loc, turn % 2);
-            win = WinCheck(cover, loc, turn % 2);
+            DrawCover(cover, board, loc, turn);
+            win = WinCheck(cover, loc, turn);
             ++turn;
             system("cls");
             PrintBoard(board);
@@ -195,8 +203,8 @@ boolean SinglePlayer(char board[Height][Length], int turn, boolean win, struct L
                 {
                     loc.Y = coord.Y + 1;
                     loc.X = coord.X / 2 + 1;
-                    DrawCover(cover, board, loc, turn % 2);
-                    win = WinCheck(cover, loc, turn % 2);
+                    DrawCover(cover, board, loc, turn);
+                    win = WinCheck(cover, loc, turn);
                     ++turn;
                     system("cls");
                     PrintBoard(board);

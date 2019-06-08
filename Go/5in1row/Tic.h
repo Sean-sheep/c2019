@@ -7,27 +7,36 @@
 // #include <stdlib.h>
 // #include <time.h>
 
+// #define Height 17
+// #define _Length 17
+// #define Score 5
+
+// struct Location
+// {
+//     char Y;
+//     char X;
+// };
+
 // //Menu
-// boolean TwoPlayer(char board[][Length], int turn, boolean win, struct Location loc, char cover[][Length][Pool], COORD coord, HANDLE handle_out);
-// boolean SinglePlayer(char board[][Length], int turn, boolean win, struct Location loc, char cover[][Length][Pool], COORD coord, HANDLE handle_out);
+// boolean TwoPlayer(char board[][_Length], int turn, boolean win, struct Location loc, char cover[][_Length][Pool], COORD coord, HANDLE handle_out);
+// boolean SinglePlayer(char board[][_Length], int turn, boolean win, struct Location loc, char cover[][_Length][Pool], COORD coord, HANDLE handle_out);
 // //PrintAndChange
-// void PrintBoard(char board[][Length]);
+// void PrintBoard(char board[][_Length]);
 // short ChangeLine(char change, short loc);
 // short ChangeRow(char change, short loc);
 // boolean PutChess(char *map, int turn);
 // //Cover
-// void DrawCover(char cover[][Length][Pool], char board[][Length], struct Location loc, int turn);
-// void ChangeSocreOfLine(char cover[][Length][Pool], char board[][Length], struct Location loc, char Y, char X, char option);
+// void DrawCover(char cover[][_Length][Pool], char board[][_Length], struct Location loc, int turn);
+// void ChangeSocreOfLine(char cover[][_Length][Pool], char board[][_Length], struct Location loc, char Y, char X, char option);
 // //Win
-// boolean WinCheck(char cover[][Length][Pool], struct Location loc, int turn);
+// boolean WinCheck(char cover[][_Length][Pool], struct Location loc, int turn);
 // //AI
-// struct Location Decide(char cover[][Length][Pool], char board[][Length]);
-// struct Location AI(char cover[][Length][Pool], char board[][Length]);
-// void CountScore(char cover[][Length][Pool], struct Location loc, int option, char board[][Length], char dY, char dX);//¼ÆËãÏÂ¸öµãµÄ¼ÛÖµ£¬²ÎÊýÖÐ°üÀ¨µ±Ç°µã¶ÔÏÂ¸öµãµÄÏà¶ÔÎ»ÖÃ
+// struct Location AI(char cover[][_Length][Pool], char board[][_Length]);
+// void CountScore(char cover[][_Length][Pool], struct Location loc, int option, char board[][_Length], char dY, char dX);//ï¿½ï¿½ï¿½ï¿½ï¿½Â¸ï¿½ï¿½ï¿½Ä¼ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð°ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½Â¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 // //Test
 // void InitRecord();
-// void PrintCover(char cover[][Length][Pool]);
-// void EveryStep(char cover[][Length][Pool]);
-// void EveryPoint(char cover[][Length][Pool], struct Location loc, int turn);
+// void PrintCover(char cover[][_Length][Pool]);
+// void EveryStep(char cover[][_Length][Pool]);
+// void EveryPoint(char cover[][_Length][Pool], struct Location loc);
 
 // #endif

@@ -9,7 +9,7 @@
 
 #include <windows.h>
 
-void DrawCover(char cover[][Length][Pool], char board[][Length], struct Location loc, int turn);
-void ChangeSocreOfLine(char cover[][Length][Pool], char board[][Length], struct Location loc, char Y, char X, char option);
+int DrawCover(char cover[][_Length][Pool], char board[][_Length], struct Location loc, int turn);
+char ChangeSocreOfLine(char cover[][_Length][Pool], char board[][_Length], struct Location loc, char Y, char X, char option); //继续向外传递CountScore返回的差
 
 #endif

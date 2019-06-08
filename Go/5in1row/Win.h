@@ -4,6 +4,6 @@
 #include "Const.h"
 #include <windows.h>
 
-boolean WinCheck(char cover[][Length][Pool], struct Location loc, int turn);
+boolean WinCheck(char cover[][_Length][Pool], struct Location loc, int turn);
 
 #endif

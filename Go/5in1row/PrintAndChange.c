@@ -17,11 +17,11 @@ boolean PutChess(char *map, int turn)
     return 0;
 }
 
-void PrintBoard(char board[][Length])
+void PrintBoard(char board[][_Length])
 {
     for (size_t i = 1; i < Height - 1; i++)
     {
-        for (size_t t = 1; t < Length - 1; t++)
+        for (size_t t = 1; t < _Length - 1; t++)
         {
             switch (board[i][t])
             {
@@ -72,14 +72,14 @@ short ChangeLine(char change, short loc)
     switch (change)
     {
     case '+':
-        if (loc >= 0 && loc <= Length * 2 - 7)
+        if (loc >= 0 && loc <= _Length * 2 - 7)
         {
             loc += 2;
         }
         break;
 
     case '-':
-        if (loc >= 2 && loc <= Length * 2 - 5)
+        if (loc >= 2 && loc <= _Length * 2 - 5)
         {
             loc -= 2;
         }

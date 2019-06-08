@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <windows.h>
 
-void PrintBoard(char board[][Length]);
+void PrintBoard(char board[][_Length]);
 short ChangeLine(char change, short loc);
 short ChangeRow(char change, short loc);
 boolean PutChess(char *map, int turn);
