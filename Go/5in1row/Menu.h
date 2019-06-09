@@ -1,8 +1,9 @@
 #if !defined(_Menu_H)
 #define Menu_H
 
-#include "AI.h"
+// #include "AI.h"
 #include "Win.h"
+#include "Test.h"
 #include "Const.h"
 #include "Cover.h"
 #include "PrintAndChange.h"
@@ -11,7 +12,7 @@
 #include <conio.h>
 #include <windows.h>
 
-boolean TwoPlayer(char board[][_Length], int turn, boolean win, struct Location loc, char cover[][_Length][Pool], COORD coord, HANDLE handle_out);
-boolean SinglePlayer(char board[][_Length], int turn, boolean win, struct Location loc, char cover[][_Length][Pool], COORD coord, HANDLE handle_out);
+boolean TwoPlayer(int board[][_Length], int turn, boolean win, struct Location loc, int cover[][_Length][10], COORD coord, HANDLE handle_out);
+boolean SinglePlayer(int board[][_Length], int turn, boolean win, struct Location loc, int cover[][_Length][10], COORD coord, HANDLE handle_out);
 
 #endif

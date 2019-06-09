@@ -1,6 +1,6 @@
 #include "Tic.h"
 
-void CountScore(char cover[][Length][9], struct Location loc)
+void CountScore(char cover[][Length][Pool], struct Location loc)
 {
     for (size_t i = 1; i < 9; i++)
     {
@@ -8,7 +8,7 @@ void CountScore(char cover[][Length][9], struct Location loc)
     }
 }
 
-void DrawCover(char cover[][Length][9], char board[5][5], struct Location loc, int turn)
+void DrawCover(char cover[][Length][Pool], char board[5][5], struct Location loc, int turn)
 {
     if (turn) //·êµ¥°××Ó,·êË«ºÚ×Ó
     {
@@ -52,7 +52,7 @@ void DrawCover(char cover[][Length][9], char board[5][5], struct Location loc, i
     system("pause");*/ //²âÊÔÓÃ
 }
 
-void ChangeSocreOfLine(char cover[][Length][9], char board[5][5], struct Location loc, char Y, char X, char option)
+void ChangeSocreOfLine(char cover[][Length][Pool], char board[5][5], struct Location loc, char Y, char X, char option)
 {
     cover[loc.Y + Y][loc.X + X][option] += cover[loc.Y][loc.X][option];
 

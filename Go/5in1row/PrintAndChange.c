@@ -1,6 +1,6 @@
 #include "PrintAndChange.h"
 
-boolean PutChess(char *map, int turn)
+boolean PutChess(int *map, int turn)
 {
     if (0 < *map && *map < 10) //判断该点是否已落子
     {
@@ -17,10 +17,18 @@ boolean PutChess(char *map, int turn)
     return 0;
 }
 
-void PrintBoard(char board[][_Length])
+void PrintBoard(int board[][_Length])
 {
+    printf("  ");
+    for (size_t i = 0; i < _Length - 2; i++)
+    {
+        printf("%2c", i + 65);
+    }
+    printf("\n");
+
     for (size_t i = 1; i < Height - 1; i++)
     {
+        printf("%2d", i);
         for (size_t t = 1; t < _Length - 1; t++)
         {
             switch (board[i][t])
@@ -67,19 +75,19 @@ void PrintBoard(char board[][_Length])
     }
 }
 
-short ChangeLine(char change, short loc)
+short ChangeLine(int change, short loc)
 {
     switch (change)
     {
     case '+':
-        if (loc >= 0 && loc <= _Length * 2 - 7)
+        if (loc >= 2 && loc <= _Length * 2 - 5)
         {
             loc += 2;
         }
         break;
 
     case '-':
-        if (loc >= 2 && loc <= _Length * 2 - 5)
+        if (loc >= 4 && loc <= _Length * 2 - 3)
         {
             loc -= 2;
         }
@@ -90,19 +98,19 @@ short ChangeLine(char change, short loc)
     return loc;
 }
 
-short ChangeRow(char change, short loc)
+short ChangeRow(int change, short loc)
 {
     switch (change)
     {
     case '+':
-        if (loc >= 0 && loc <= Height - 4)
+        if (loc >= 1 && loc <= Height - 3)
         {
             loc += 1;
         }
         break;
 
     case '-':
-        if (loc >= 1 && loc <= Height - 3)
+        if (loc >= 2 && loc <= Height - 2)
         {
             loc -= 1;
         }
@@ -112,4 +120,16 @@ short ChangeRow(char change, short loc)
         break;
     }
     return loc;
+}
+
+void ChangeBoard(int turn)
+{
+    if (turn % 2)
+    {
+        printf("○");
+    }
+    else
+    {
+        printf("●");
+    }
 }

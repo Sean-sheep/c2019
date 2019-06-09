@@ -1,8 +1,8 @@
 #include "Menu.h"
 
-int main(int argc, char const *argv[])
+int main(int argc, int const *argv[])
 {
-    char board[Height][_Length] = {
+    int board[Height][_Length] = {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0},
         {0, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 0},
@@ -24,7 +24,7 @@ int main(int argc, char const *argv[])
     int turn = 0; //传入原值，返回值%2
     boolean win = 1;
     struct Location loc = {0, 0};
-    char cover[Height][_Length][Pool] = {0};
+    int cover[Height][_Length][10] = {0};
     srand((unsigned)time(NULL));
     system("color f0");
 
@@ -35,8 +35,8 @@ int main(int argc, char const *argv[])
     CONSOLE_SCREEN_BUFFER_INFO csbi;                     //控制台屏幕缓冲区信息
     CONSOLE_CURSOR_INFO cci;                             //定义光标信息结构体
     GetConsoleCursorInfo(handle_out, &cci);              //获得当前光标信息
-    coord.X = 0;                                         //初始化行坐标值
-    coord.Y = 0;                                         //初始化列坐标值
+    coord.X = 2;                                         //初始化行坐标值
+    coord.Y = 1;                                         //初始化列坐标值
     cci.dwSize = 100;                                    //设置光标尺寸值为100
     SetConsoleCursorInfo(handle_out, &cci);              //设置光标尺寸
     GetConsoleScreenBufferInfo(handle_out, &csbi);       //获取控制台窗口信息(主要是获取光标坐标)
@@ -63,21 +63,23 @@ int main(int argc, char const *argv[])
         turn = TwoPlayer(board, turn, win, loc, cover, coord, handle_out);
         break;
         //  白子先手，然鹅还是弟弟
-    // case 3:
-    //     loc.Y = rand() % 5 + 5;
-    //     loc.X = rand() % 5 + 5;
-    //     PutChess(&board[loc.Y][loc.X], 1);
-    //     DrawCover(cover, board, loc, 1);
-    //     turn = SinglePlayer(board, turn, win, loc, cover, coord, handle_out);
-    //     break;
-        
+        // case 3:
+        //     loc.Y = rand() % 5 + 5;
+        //     loc.X = rand() % 5 + 5;
+        //     PutChess(&board[loc.Y][loc.X], 1);
+        // EveryPoint(cover, loc, turn); //Test
+        // EveryStep(cover,board);             //Test
+        //     DrawCover(cover, board, loc, 1);
+        //     turn = SinglePlayer(board, turn, win, loc, cover, coord, handle_out);
+        //     break;
+
     default:
         return 0;
     }
 
     cci.dwSize = 20;                             //设置光标尺寸值为20
     coord.X = 0;                                 //重设行坐标值
-    coord.Y = Height - 1;                        //重设列坐标值
+    coord.Y = Height;                            //重设列坐标值
     SetConsoleCursorInfo(handle_out, &cci);      //设置光标尺寸
     SetConsoleCursorPosition(handle_out, coord); //设置光标位置
 
@@ -100,7 +102,7 @@ int main(int argc, char const *argv[])
     return 0;
 }
 
-boolean TwoPlayer(char board[Height][_Length], int turn, boolean win, struct Location loc, char cover[Height][_Length][Pool], COORD coord, HANDLE handle_out)
+boolean TwoPlayer(int board[Height][_Length], int turn, boolean win, struct Location loc, int cover[Height][_Length][10], COORD coord, HANDLE handle_out)
 {
     system("cls");
     PrintBoard(board);
@@ -131,17 +133,18 @@ boolean TwoPlayer(char board[Height][_Length], int turn, boolean win, struct Loc
             break;
 
         case ' ':
-            if (PutChess(&board[coord.Y + 1][coord.X / 2 + 1], turn))
+            if (PutChess(&board[coord.Y][coord.X / 2], turn))
             {
-                loc.Y = coord.Y + 1;
-                loc.X = coord.X / 2 + 1;
+                loc.Y = coord.Y;
+                loc.X = coord.X / 2;
+                EveryPoint(cover, loc, turn); //Test
+                EveryStep(cover, board);      //Test
                 DrawCover(cover, board, loc, turn);
                 win = WinCheck(cover, loc, turn);
+                ChangeBoard(turn);
+                SetConsoleCursorPosition(handle_out, coord);
                 ++turn;
             }
-            system("cls");
-            PrintBoard(board);
-            SetConsoleCursorPosition(handle_out, coord);
             break;
 
         default:
@@ -151,7 +154,7 @@ boolean TwoPlayer(char board[Height][_Length], int turn, boolean win, struct Loc
     return turn % 2;
 }
 
-boolean SinglePlayer(char board[Height][_Length], int turn, boolean win, struct Location loc, char cover[Height][_Length][Pool], COORD coord, HANDLE handle_out)
+boolean SinglePlayer(int board[Height][_Length], int turn, boolean win, struct Location loc, int cover[Height][_Length][10], COORD coord, HANDLE handle_out)
 {
     int t = 0;
 
@@ -165,14 +168,16 @@ boolean SinglePlayer(char board[Height][_Length], int turn, boolean win, struct 
         {
             loc = AI(cover, board, turn);
             PutChess(&board[loc.Y][loc.X], turn);
+            EveryPoint(cover, loc, turn); //Test
+            EveryStep(cover, board);      //Test
             DrawCover(cover, board, loc, turn);
             win = WinCheck(cover, loc, turn);
-            ++turn;
-            system("cls");
-            PrintBoard(board);
-            coord.Y = loc.Y - 1;
-            coord.X = (loc.X - 1) * 2;
+            coord.Y = loc.Y;
+            coord.X = loc.X * 2;
             SetConsoleCursorPosition(handle_out, coord);
+            ChangeBoard(turn);
+            SetConsoleCursorPosition(handle_out, coord);
+            ++turn;
         }
         else
         {
@@ -199,16 +204,17 @@ boolean SinglePlayer(char board[Height][_Length], int turn, boolean win, struct 
                 break;
 
             case ' ':
-                if (PutChess(&board[coord.Y + 1][coord.X / 2 + 1], turn))
+                if (PutChess(&board[coord.Y][coord.X / 2], turn))
                 {
-                    loc.Y = coord.Y + 1;
-                    loc.X = coord.X / 2 + 1;
+                    loc.Y = coord.Y;
+                    loc.X = coord.X / 2;
+                    EveryPoint(cover, loc, turn); //Test
+                    EveryStep(cover, board);      //Test
                     DrawCover(cover, board, loc, turn);
                     win = WinCheck(cover, loc, turn);
-                    ++turn;
-                    system("cls");
-                    PrintBoard(board);
+                    ChangeBoard(turn);
                     SetConsoleCursorPosition(handle_out, coord);
+                    ++turn;
                 }
                 break;
 

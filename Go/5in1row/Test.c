@@ -1,6 +1,6 @@
 #include "Test.h"
 
-void PrintCover(char cover[][_Length][Pool])
+void PrintCover(int cover[][_Length][10])
 {
     for (size_t i = 1; i < Height - 1; i++)
     {
@@ -23,7 +23,7 @@ void InitRecord()
     fclose(fp);
 }
 
-void EveryStep(char cover[][_Length][Pool])
+void EveryStep(int cover[][_Length][10], int board[][_Length])
 {
     FILE *fp;
     fp = fopen("¼ÇÂ¼.txt", "a");
@@ -31,7 +31,14 @@ void EveryStep(char cover[][_Length][Pool])
     {
         for (size_t t = 1; t < _Length - 1; t++)
         {
-            fprintf(fp, "%2d,", cover[i][t][0]);
+            if (0 < board[i][t] && board[i][t] < 10)
+            {
+                fprintf(fp, "%2d,", cover[i][t][0]);
+            }
+            else
+            {
+                fprintf(fp, "%2c,", board[i][t]);
+            }
         }
         fprintf(fp, "\n");
     }
@@ -39,20 +46,32 @@ void EveryStep(char cover[][_Length][Pool])
     fclose(fp);
 }
 
-void EveryPoint(char cover[][_Length][Pool], struct Location loc, int turn)
+void EveryPoint(int cover[][_Length][10], struct Location loc, int turn)
 {
     FILE *fp;
     fp = fopen("¼ÇÂ¼.txt", "a");
-    fprintf(fp, "X:%d,Y:%d,count:%d,white:", loc.X, loc.Y, cover[loc.Y][loc.X][0]);
+    fprintf(fp, "X:%2c,Y:%2d,count:%d,white:", loc.X + 64, loc.Y, cover[loc.Y][loc.X][0]);
     for (size_t i = 1; i < 5; i++)
     {
-        fprintf(fp, "%d ", cover[loc.Y][loc.X][i]);
+        fprintf(fp, "%2d", cover[loc.Y][loc.X][i]);
     }
     fprintf(fp, "black:");
     for (size_t i = 5; i < 9; i++)
     {
-        fprintf(fp, "%d ", cover[loc.Y][loc.X][i]);
+        fprintf(fp, "%2d", cover[loc.Y][loc.X][i]);
     }
     fprintf(fp, "\n");
+    fclose(fp);
+}
+
+void CountIncome(struct Location loc, int benefit, int turn)
+{
+    FILE *fp;
+    fp = fopen("¼ÇÂ¼.txt", "a");
+    for (size_t i = 1; i < turn; i++)
+    {
+        fprintf(fp, "   ");
+    }
+    fprintf(fp, "%d)X:%2c,Y:%2d,benefit:%2d\n", turn, loc.X + 64, loc.Y, benefit);
     fclose(fp);
 }
