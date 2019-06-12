@@ -62,6 +62,7 @@ int main(int argc, int const *argv[])
     case 2:
         turn = TwoPlayer(board, turn, win, loc, cover, coord, handle_out);
         break;
+<<<<<<< HEAD
         //  白子先手，然鹅还是弟弟
         // case 3:
         //     loc.Y = rand() % 5 + 5;
@@ -73,6 +74,17 @@ int main(int argc, int const *argv[])
         //     turn = SinglePlayer(board, turn, win, loc, cover, coord, handle_out);
         //     break;
 
+=======
+        /* 白子先手，然鹅还是弟弟
+    case 3:
+        loc.Y = rand() % 5 + 5;
+        loc.X = rand() % 5 + 5;
+        PutChess(&board[loc.Y][loc.X], 1);
+        DrawCover(cover, board, loc, 1);
+        turn = SinglePlayer(board, turn, win, loc, cover, coord, handle_out);
+        break;
+        */
+>>>>>>> b0d67a5d3c2eb441a911e9bb0165ecf443773235
     default:
         return 0;
     }

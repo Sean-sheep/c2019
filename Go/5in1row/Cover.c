@@ -291,7 +291,11 @@ int ChangeSocreOfLine(int cover[][_Length][10], int board[][_Length], struct Loc
         }
         loc.Y += Y;
         loc.X += X;
+<<<<<<< HEAD
         return CountScore(cover, loc, option, board, Y, X);
+=======
+        CountScore(cover, loc, option, board, Y, X); //计算下个点的价值，参数中包括下个点对当前点的相对位置
+>>>>>>> b0d67a5d3c2eb441a911e9bb0165ecf443773235
     }
     else if (option >= 1 && option <= 4 && board[loc.Y + Y][loc.X + X] == 'W')
     {
