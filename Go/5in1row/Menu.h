@@ -12,7 +12,7 @@
 #include <conio.h>
 #include <windows.h>
 
-boolean TwoPlayer(int board[][_Length], int turn, boolean win, struct Location loc, int cover[][_Length][10], COORD coord, HANDLE handle_out);
-boolean SinglePlayer(int board[][_Length], int turn, boolean win, struct Location loc, int cover[][_Length][10], COORD coord, HANDLE handle_out);
+boolean TwoPlayer(unsigned char board[][_Length], int turn, boolean win, struct Location loc, unsigned char cover[][_Length][10], COORD coord, HANDLE handle_out);
+boolean SinglePlayer(unsigned char board[][_Length], int turn, boolean win, struct Location loc, unsigned char cover[][_Length][10], COORD coord, HANDLE handle_out);
 
 #endif

@@ -1,9 +1,9 @@
 #include "Cover.h"
 
-struct Location AI(int cover[][_Length][10], int board[][_Length], int turn)
+struct Location AI(unsigned char cover[][_Length][10], unsigned char board[][_Length], int turn)
 {
     struct Location ans;
-    int Subcover[Height][_Length][10] = {0}, Suboard[Height][_Length] = {0};
+    unsigned char Subcover[Height][_Length][10] = {0}, Suboard[Height][_Length] = {0};
     memcpy(Suboard, board, sizeof(Suboard));
     memcpy(Subcover, cover, sizeof(Subcover));
     Decide(cover, board, &ans, 1);
@@ -11,7 +11,7 @@ struct Location AI(int cover[][_Length][10], int board[][_Length], int turn)
 }
 
 int
-Decide(int cover[][_Length][10], int board[][_Length], struct Location *ansP, int extro)
+Decide(unsigned char cover[][_Length][10], unsigned char board[][_Length], struct Location *ansP, unsigned char extro)
 {
     // if (extro != 1)
     // {
@@ -23,9 +23,9 @@ Decide(int cover[][_Length][10], int board[][_Length], struct Location *ansP, in
     //             {
     //                 for (size_t k = 1; k < 5; k++)
     //                 {
-    //                     if (cover[i][j][k] > 3)
+    //                     if (cover[i][j][k] > 4)
     //                     {
-    //                         return 1000;
+    //                         return 10000;
     //                     }
     //                 }
     //             }
@@ -33,9 +33,9 @@ Decide(int cover[][_Length][10], int board[][_Length], struct Location *ansP, in
     //             {
     //                 for (size_t k = 5; k < 9; k++)
     //                 {
-    //                     if (cover[i][j][k] > 3)
+    //                     if (cover[i][j][k] > 4)
     //                     {
-    //                         return 1000;
+    //                         return 10000;
     //                     }
     //                 }
     //             }
@@ -45,7 +45,7 @@ Decide(int cover[][_Length][10], int board[][_Length], struct Location *ansP, in
 
     int value = 1, rslt = 0;
 
-    if (extro / 2 == 3)
+    if (extro / 2 == Deep)
     {
         struct Location loc;
 
@@ -56,13 +56,13 @@ Decide(int cover[][_Length][10], int board[][_Length], struct Location *ansP, in
                 if (board[i][j] > 0 && board[i][j] < 10 && cover[i][j][0] >= value)
                 {
                     value = cover[i][j][0];
-                    for (size_t k = 5 - (extro % 2) * 4; k < 9 - (extro % 2) * 4; k++)
-                    {
-                        if (cover[i][j][k] > 3)
-                        {
-                            value = 1000;
-                        }
-                    }
+                    // for (size_t k = 5 - (extro % 2) * 4; k < 9 - (extro % 2) * 4; k++)
+                    // {
+                    //     if (cover[i][j][k] > 3)
+                    //     {
+                    //         value = 1000;
+                    //     }
+                    // }
                     loc.Y = i;
                     loc.X = j;
                 }
@@ -74,9 +74,10 @@ Decide(int cover[][_Length][10], int board[][_Length], struct Location *ansP, in
     {
         value = -10000;
         struct Location loc[Pool];
-        int Subcover[Height][_Length][10] = {0}, Suboard[Height][_Length] = {0}, t = Point(cover, board, loc);
+        struct Node ans;
+        unsigned char Subcover[Height][_Length][10] = {0}, Suboard[Height][_Length] = {0};
 
-        for (size_t i = 0; i < t; i++)
+        for (size_t i = 0; i < findPoints(cover, board, loc); i++)
         {
             // value = max(value, cover[loc[i].Y][loc[i].X][0]);
             memcpy(Suboard, board, sizeof(Suboard));
@@ -91,13 +92,13 @@ Decide(int cover[][_Length][10], int board[][_Length], struct Location *ansP, in
             if (rslt > value)
             {
                 value = rslt;
-                for (size_t k = 5 - (extro % 2) * 4; k < 9 - (extro % 2) * 4; k++)
-                {
-                    if (cover[loc[i].Y][loc[i].X][k] > 3)
-                    {
-                        value = 1000;
-                    }
-                }
+                // for (size_t k = 5 - (extro % 2) * 4; k < 9 - (extro % 2) * 4; k++)
+                // {
+                //     if (cover[loc[i].Y][loc[i].X][k] > 3)
+                //     {
+                //         value = 1000;
+                //     }
+                // }
                 if (extro == 1)
                 {
                     *ansP = loc[i];
@@ -108,14 +109,31 @@ Decide(int cover[][_Length][10], int board[][_Length], struct Location *ansP, in
     return value;
 }
 
-int Point(int cover[][_Length][10], int board[][_Length], struct Location loc[])
+unsigned char findPoints(unsigned char cover[][_Length][10], unsigned char board[][_Length], struct Location loc[])
 {
-    int t = 0, value = 1;
+    char t = 0, value = 1;
+    // unsigned char t = 0, values[Pool + 1] = {255};
+    // values[Pool] = 1;
 
     for (size_t i = 1; i < Height - 1; i++)
     {
         for (size_t j = 1; j < _Length - 1; j++)
         {
+            // if (board[i][j] > 0 && board[i][j] < 10 && cover[i][j][0] >= values[Pool])
+            // {
+            //     for (size_t k = Pool - 1; k >= 0; k--)
+            //     {
+            //         if (cover[i][j][0] <= values[k]) //如果小于等于就把值赋给后项
+            //         {
+            //             values[k] = cover[i][j][0];
+            //             t = max(t, k + 1);
+            //             loc[k].Y = i;
+            //             loc[k].X = j;
+            //             break;
+            //         }
+            //     }
+            // }
+
             if (board[i][j] > 0 && board[i][j] < 10 && cover[i][j][0] >= (value + 1) / 2)
             {
                 if (cover[i][j][0] > value)
@@ -125,12 +143,12 @@ int Point(int cover[][_Length][10], int board[][_Length], struct Location loc[])
                 }
                 loc[t].Y = i;
                 loc[t].X = j;
-                t = (t == (Pool - 1)) ? 0 : t + 1;
+                t = (t + 1) % Pool;
+                // t = (t == (Pool - 1)) ? 0 : t + 1;
                 // value = max(value, cover[i][j][0]);
             }
         }
     }
-
     return t;
 }
 // struct Location AI(int cover[][_Length][10], int board[][_Length], int turn)
@@ -185,35 +203,93 @@ int Point(int cover[][_Length][10], int board[][_Length], struct Location loc[])
 //     return altLoc[t];
 // }
 
-int CountScore(int cover[][_Length][10], struct Location loc, int option, int board[][_Length], int dY, int dX)
+unsigned char CountScore(unsigned char cover[][_Length][10], struct Location loc, unsigned char option, unsigned char board[][_Length], char dY, char dX)
 {
-    // cover[loc.Y][loc.X][0] = cover[loc.Y][loc.X][9] = 0;
-    // int prevalue = cover[loc.Y][loc.X][0];
-    cover[loc.Y][loc.X][0] = 0;
+    unsigned char player = 0, countpart = 0, prevalueW = cover[loc.Y][loc.X][0], prevalueB = cover[loc.Y][loc.X][9];
+    cover[loc.Y][loc.X][9] = cover[loc.Y][loc.X][0] = 0;
 
     for (size_t i = 1; i < 9; i++)
     {
-        if (cover[loc.Y][loc.X][i] > 1)
+        player = i / 5 * 9;
+        switch (cover[loc.Y][loc.X][i])
         {
-            cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] * cover[loc.Y][loc.X][i] * cover[loc.Y][loc.X][i];
-            // cover[loc.Y][loc.X][9] += cover[loc.Y][loc.X][i];
-        }
-        // if (cover[loc.Y][loc.X][i] > 4)
-        // {
-        //     cover[loc.Y][loc.X][0] *= 10;
-        //     // cover[loc.Y][loc.X][9] *= 10;
-        // }
-    }
-    cover[loc.Y][loc.X][0] += (cover[loc.Y][loc.X][0] <= 0);
-    // cover[loc.Y][loc.X][9] += (cover[loc.Y][loc.X][9] <= 0);
-    // int feedback = cover[loc.Y][loc.X][0] - cover[loc.Y][loc.X][9];
+        case 0:
+            break;
 
-    return cover[loc.Y][loc.X][0];
+        case 1:
+            cover[loc.Y][loc.X][player] += one;
+            break;
+
+        case 2:
+            countpart = board[loc.Y - dY * 3][loc.X - dX * 3];
+            if (0 < countpart && countpart < 10)
+            {
+                cover[loc.Y][loc.X][player] += two;
+            }
+            else
+            {
+                cover[loc.Y][loc.X][player] += half_two;
+            }
+            break;
+
+        case 3:
+            countpart = board[loc.Y - dY * 4][loc.X - dX * 4];
+            if (0 < countpart && countpart < 10)
+            {
+                cover[loc.Y][loc.X][player] += three;
+            }
+            else
+            {
+                cover[loc.Y][loc.X][player] += half_three;
+            }
+            break;
+
+        case 4:
+            countpart = board[loc.Y - dY * 5][loc.X - dX * 5];
+            if (0 < countpart && countpart < 10)
+            {
+                cover[loc.Y][loc.X][player] += four;
+            }
+            else
+            {
+                cover[loc.Y][loc.X][player] += half_four;
+            }
+            break;
+
+        default:
+            cover[loc.Y][loc.X][player] += five;
+            break;
+        }
+    }
+    return cover[loc.Y][loc.X][0] - prevalueW + prevalueB - cover[loc.Y][loc.X][9]; //白方收益减去黑方收益
+
+    // // cover[loc.Y][loc.X][0] = cover[loc.Y][loc.X][9] = 0;
+    // // int prevalue = cover[loc.Y][loc.X][0];
+    // cover[loc.Y][loc.X][0] = 0;
+
+    // for (size_t i = 1; i < 9; i++)
+    // {
+    //     if (cover[loc.Y][loc.X][i] > 1)
+    //     {
+    //         cover[loc.Y][loc.X][0] += cover[loc.Y][loc.X][i] * cover[loc.Y][loc.X][i] * cover[loc.Y][loc.X][i];
+    //         // cover[loc.Y][loc.X][9] += cover[loc.Y][loc.X][i];
+    //     }
+    //     // if (cover[loc.Y][loc.X][i] > 4)
+    //     // {
+    //     //     cover[loc.Y][loc.X][0] *= 10;
+    //     //     // cover[loc.Y][loc.X][9] *= 10;
+    //     // }
+    // }
+    // cover[loc.Y][loc.X][0] += (cover[loc.Y][loc.X][0] <= 0);
+    // // cover[loc.Y][loc.X][9] += (cover[loc.Y][loc.X][9] <= 0);
+    // // int feedback = cover[loc.Y][loc.X][0] - cover[loc.Y][loc.X][9];
+
+    // return cover[loc.Y][loc.X][0];
 }
 
-int DrawCover(int cover[][_Length][10], int board[][_Length], struct Location loc, int turn)
+int DrawCover(unsigned char cover[][_Length][10], unsigned char board[][_Length], struct Location loc, int turn)
 {
-    int dY[4] = {1, 0, 1, 1}, dX[4] = {1, 1, 0, -1};
+    char dY[4] = {1, 0, 1, 1}, dX[4] = {1, 1, 0, -1};
     int profit = 0;
 
     if (turn % 2) //逢单白子,逢双黑子
@@ -222,7 +298,7 @@ int DrawCover(int cover[][_Length][10], int board[][_Length], struct Location lo
         {
             ++cover[loc.Y][loc.X][i];
             profit += ChangeSocreOfLine(cover, board, loc, dY[i - 1], dX[i - 1], i);
-            profit += ChangeSocreOfLine(cover, board, loc, 0 - dY[i - 1], 0 - dX[i - 1], i);
+            profit += ChangeSocreOfLine(cover, board, loc, -dY[i - 1], -dX[i - 1], i);
         }
         // //[1]White Diag 对角线上前后及自身共三个点的对角线值均增加(下同)
         // ++cover[loc.Y][loc.X][1];
@@ -247,7 +323,7 @@ int DrawCover(int cover[][_Length][10], int board[][_Length], struct Location lo
         {
             ++cover[loc.Y][loc.X][i];
             profit += ChangeSocreOfLine(cover, board, loc, dY[i - 5], dX[i - 5], i);
-            profit += ChangeSocreOfLine(cover, board, loc, 0 - dY[i - 5], 0 - dX[i - 5], i);
+            profit += ChangeSocreOfLine(cover, board, loc, -dY[i - 5], -dX[i - 5], i);
         }
         // //[5]Black Diag
         // ++cover[loc.Y][loc.X][5];
@@ -269,47 +345,100 @@ int DrawCover(int cover[][_Length][10], int board[][_Length], struct Location lo
     return profit;
 }
 
-int ChangeSocreOfLine(int cover[][_Length][10], int board[][_Length], struct Location loc, int Y, int X, int option)
+unsigned char ChangeSocreOfLine(unsigned char cover[][_Length][10], unsigned char board[][_Length], struct Location loc, char Y, char X, unsigned char option)
 {
-    if (board[loc.Y + Y][loc.X + X] > 0 && board[loc.Y + Y][loc.X + X] < 10) //下个点没子
-    {
-        cover[loc.Y + Y][loc.X + X][option] = cover[loc.Y][loc.X][option];
+    int a = (option < 5) * 2,
+        b = (board[loc.Y + Y][loc.X + X] == 'W'),
+        c = (board[loc.Y + 2 * Y][loc.X + 2 * X] == 'W');
 
-        // if (board[loc.Y + 2 * Y][loc.X + 2 * X] > 0 && board[loc.Y + 2 * Y][loc.X + 2 * X] < 10) //下下点也没子
+    if (board[loc.Y + Y][loc.X + X] > 0)
+    {
+        if (board[loc.Y + Y][loc.X + X] < 10) //下个点没子
+        {
+            cover[loc.Y + Y][loc.X + X][option] = cover[loc.Y][loc.X][option];
+
+            // if (board[loc.Y + 2 * Y][loc.X + 2 * X] > 0 && board[loc.Y + 2 * Y][loc.X + 2 * X] < 10) //下下点也没子
+            // {
+            //     cover[loc.Y + Y][loc.X + X][option] = cover[loc.Y][loc.X][option];
+            // }
+            // else
+
+            // if (option >= 1 && option <= 4 && board[loc.Y + 2 * Y][loc.X + 2 * X] == 'W')
+            // {
+            //     cover[loc.Y + Y][loc.X + X][option] += cover[loc.Y + 2 * Y][loc.X + 2 * X][option];
+            // }
+            // else if (option >= 5 && option <= 8 && board[loc.Y + 2 * Y][loc.X + 2 * X] == 'B')
+            // {
+            //     cover[loc.Y + Y][loc.X + X][option] += cover[loc.Y + 2 * Y][loc.X + 2 * X][option];
+            // }
+
+            switch (a + c)
+            {
+            case 0b11: // if (option >= 1 && option <= 4 && board[loc.Y + 2 * Y][loc.X + 2 * X] == 'W')
+                cover[loc.Y + Y][loc.X + X][option] += cover[loc.Y + 2 * Y][loc.X + 2 * X][option];
+                break;
+
+            case 0b00: // else if (option >= 5 && option <= 8 && board[loc.Y + 2 * Y][loc.X + 2 * X] == 'B')
+                cover[loc.Y + Y][loc.X + X][option] += cover[loc.Y + 2 * Y][loc.X + 2 * X][option];
+                break;
+
+            default:
+                break;
+            }
+
+            loc.Y += Y;
+            loc.X += X;
+            return CountScore(cover, loc, option, board, Y, X);
+        }
+
+        // else if (option >= 1 && option <= 4 && board[loc.Y + Y][loc.X + X] == 'W')
         // {
         //     cover[loc.Y + Y][loc.X + X][option] = cover[loc.Y][loc.X][option];
+        //     loc.Y += Y;
+        //     loc.X += X;
+        //     ChangeSocreOfLine(cover, board, loc, Y, X, option);
         // }
-        // else
+        // else if (option >= 5 && option <= 8 && board[loc.Y + Y][loc.X + X] == 'B')
+        // {
+        //     cover[loc.Y + Y][loc.X + X][option] = cover[loc.Y][loc.X][option];
+        //     loc.Y += Y;
+        //     loc.X += X;
+        //     ChangeSocreOfLine(cover, board, loc, Y, X, option);
+        // }
 
-        if (option >= 1 && option <= 4 && board[loc.Y + 2 * Y][loc.X + 2 * X] == 'W')
+        loc.Y += Y; //反正都要加，不如提前
+        loc.X += X;
+        switch (a + b)
         {
-            cover[loc.Y + Y][loc.X + X][option] += cover[loc.Y + 2 * Y][loc.X + 2 * X][option];
+        case 0b11: // else if (option >= 1 && option <= 4 && board[loc.Y + Y][loc.X + X] == 'W')
+            cover[loc.Y][loc.X][option] = cover[loc.Y - Y][loc.X - X][option];
+            // loc.Y += Y;
+            // loc.X += X;
+            ChangeSocreOfLine(cover, board, loc, Y, X, option);
+            break;
+
+        case 0b00: // else if (option >= 5 && option <= 8 && board[loc.Y + Y][loc.X + X] == 'B')
+            cover[loc.Y][loc.X][option] = cover[loc.Y - Y][loc.X - X][option];
+            // loc.Y += Y;
+            // loc.X += X;
+            ChangeSocreOfLine(cover, board, loc, Y, X, option);
+            break;
+
+        case 0b10:
+            // loc.Y += Y;
+            // loc.X += X;
+            ChangeSocreOfLine(cover, board, loc, Y, X, option + 4);
+            break;
+
+        case 0b01:
+            // loc.Y += Y;
+            // loc.X += X;
+            ChangeSocreOfLine(cover, board, loc, Y, X, option - 4);
+            break;
+
+        default:
+            break;
         }
-        else if (option >= 5 && option <= 8 && board[loc.Y + 2 * Y][loc.X + 2 * X] == 'B')
-        {
-            cover[loc.Y + Y][loc.X + X][option] += cover[loc.Y + 2 * Y][loc.X + 2 * X][option];
-        }
-        loc.Y += Y;
-        loc.X += X;
-<<<<<<< HEAD
-        return CountScore(cover, loc, option, board, Y, X);
-=======
-        CountScore(cover, loc, option, board, Y, X); //计算下个点的价值，参数中包括下个点对当前点的相对位置
->>>>>>> b0d67a5d3c2eb441a911e9bb0165ecf443773235
-    }
-    else if (option >= 1 && option <= 4 && board[loc.Y + Y][loc.X + X] == 'W')
-    {
-        cover[loc.Y + Y][loc.X + X][option] = cover[loc.Y][loc.X][option];
-        loc.Y += Y;
-        loc.X += X;
-        ChangeSocreOfLine(cover, board, loc, Y, X, option);
-    }
-    else if (option >= 5 && option <= 8 && board[loc.Y + Y][loc.X + X] == 'B')
-    {
-        cover[loc.Y + Y][loc.X + X][option] = cover[loc.Y][loc.X][option];
-        loc.Y += Y;
-        loc.X += X;
-        ChangeSocreOfLine(cover, board, loc, Y, X, option);
     }
     return 0;
 }

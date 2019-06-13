@@ -8,17 +8,17 @@
 #include <stdio.h>
 #include <windows.h>
 
-struct Location AI(int cover[][_Length][10], int board[][_Length], int turn);
-int Decide(int cover[][_Length][10], int board[][_Length], struct Location *ansP, int extro);
-int Point(int cover[][_Length][10], int board[][_Length], struct Location loc[]);
+struct Location AI(unsigned char cover[][_Length][10], unsigned char board[][_Length], int turn);
+int Decide(unsigned char cover[][_Length][10], unsigned char board[][_Length], struct Location *ansP, unsigned char extro);
+unsigned char findPoints(unsigned char cover[][_Length][10], unsigned char board[][_Length], struct Location loc[]);
 
-//计算下个点的价值，参数中包括当前点对下个点的相对位置,返回白分对黑分之差
-int CountScore(int cover[][_Length][10], struct Location loc, int option, int board[][_Length], int dY, int dX);
+//计算下个点的价值，参数中包括下个点对当前点的相对位置,返回收益
+unsigned char CountScore(unsigned char cover[][_Length][10], struct Location loc, unsigned char option, unsigned char board[][_Length], char dY, char dX);
 
 //返回八方差值之和
-int DrawCover(int cover[][_Length][10], int board[][_Length], struct Location loc, int turn);
+int DrawCover(unsigned char cover[][_Length][10], unsigned char board[][_Length], struct Location loc, int turn);
 
 //继续向外传递CountScore返回的差值
-int ChangeSocreOfLine(int cover[][_Length][10], int board[][_Length], struct Location loc, int Y, int X, int option);
+unsigned char ChangeSocreOfLine(unsigned char cover[][_Length][10], unsigned char board[][_Length], struct Location loc, char Y, char X, unsigned char option);
 
 #endif

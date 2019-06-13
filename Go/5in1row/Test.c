@@ -1,6 +1,6 @@
 #include "Test.h"
 
-void PrintCover(int cover[][_Length][10])
+void PrintCover(unsigned char cover[][_Length][10])
 {
     for (size_t i = 1; i < Height - 1; i++)
     {
@@ -23,7 +23,7 @@ void InitRecord()
     fclose(fp);
 }
 
-void EveryStep(int cover[][_Length][10], int board[][_Length])
+void EveryStep(unsigned char cover[][_Length][10], unsigned char board[][_Length])
 {
     FILE *fp;
     fp = fopen("¼ÇÂ¼.txt", "a");
@@ -46,7 +46,7 @@ void EveryStep(int cover[][_Length][10], int board[][_Length])
     fclose(fp);
 }
 
-void EveryPoint(int cover[][_Length][10], struct Location loc, int turn)
+void EveryPoint(unsigned char cover[][_Length][10], struct Location loc, int turn)
 {
     FILE *fp;
     fp = fopen("¼ÇÂ¼.txt", "a");

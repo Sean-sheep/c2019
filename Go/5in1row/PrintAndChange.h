@@ -7,10 +7,10 @@
 #include <stdio.h>
 #include <windows.h>
 
-void PrintBoard(int board[][_Length]);
-short ChangeLine(int change, short loc);
-short ChangeRow(int change, short loc);
-boolean PutChess(int *map, int turn);
+void PrintBoard(unsigned char board[][_Length]);
+short ChangeLine(unsigned char change, short loc);
+short ChangeRow(unsigned char change, short loc);
+boolean PutChess(unsigned char *map, int turn);
 void ChangeBoard(int turn);
 
 #endif

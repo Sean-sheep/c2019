@@ -2,7 +2,7 @@
 
 int main(int argc, int const *argv[])
 {
-    int board[Height][_Length] = {
+    unsigned char board[Height][_Length] = {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0},
         {0, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 0},
@@ -24,7 +24,7 @@ int main(int argc, int const *argv[])
     int turn = 0; //传入原值，返回值%2
     boolean win = 1;
     struct Location loc = {0, 0};
-    int cover[Height][_Length][10] = {0};
+    unsigned char cover[Height][_Length][10] = {0};
     srand((unsigned)time(NULL));
     system("color f0");
 
@@ -62,29 +62,17 @@ int main(int argc, int const *argv[])
     case 2:
         turn = TwoPlayer(board, turn, win, loc, cover, coord, handle_out);
         break;
-<<<<<<< HEAD
-        //  白子先手，然鹅还是弟弟
-        // case 3:
-        //     loc.Y = rand() % 5 + 5;
-        //     loc.X = rand() % 5 + 5;
-        //     PutChess(&board[loc.Y][loc.X], 1);
-        // EveryPoint(cover, loc, turn); //Test
-        // EveryStep(cover,board);             //Test
-        //     DrawCover(cover, board, loc, 1);
-        //     turn = SinglePlayer(board, turn, win, loc, cover, coord, handle_out);
-        //     break;
-
-=======
-        /* 白子先手，然鹅还是弟弟
+    //  白子先手，然鹅还是弟弟
     case 3:
         loc.Y = rand() % 5 + 5;
         loc.X = rand() % 5 + 5;
         PutChess(&board[loc.Y][loc.X], 1);
+        EveryPoint(cover, loc, turn); //Test
+        EveryStep(cover, board);      //Test
         DrawCover(cover, board, loc, 1);
         turn = SinglePlayer(board, turn, win, loc, cover, coord, handle_out);
         break;
-        */
->>>>>>> b0d67a5d3c2eb441a911e9bb0165ecf443773235
+
     default:
         return 0;
     }
@@ -114,7 +102,7 @@ int main(int argc, int const *argv[])
     return 0;
 }
 
-boolean TwoPlayer(int board[Height][_Length], int turn, boolean win, struct Location loc, int cover[Height][_Length][10], COORD coord, HANDLE handle_out)
+boolean TwoPlayer(unsigned char board[Height][_Length], int turn, boolean win, struct Location loc, unsigned char cover[Height][_Length][10], COORD coord, HANDLE handle_out)
 {
     system("cls");
     PrintBoard(board);
@@ -166,7 +154,7 @@ boolean TwoPlayer(int board[Height][_Length], int turn, boolean win, struct Loca
     return turn % 2;
 }
 
-boolean SinglePlayer(int board[Height][_Length], int turn, boolean win, struct Location loc, int cover[Height][_Length][10], COORD coord, HANDLE handle_out)
+boolean SinglePlayer(unsigned char board[Height][_Length], int turn, boolean win, struct Location loc, unsigned char cover[Height][_Length][10], COORD coord, HANDLE handle_out)
 {
     int t = 0;
 

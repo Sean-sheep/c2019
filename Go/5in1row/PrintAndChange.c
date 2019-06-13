@@ -1,6 +1,6 @@
 #include "PrintAndChange.h"
 
-boolean PutChess(int *map, int turn)
+boolean PutChess(unsigned char *map, int turn)
 {
     if (0 < *map && *map < 10) //判断该点是否已落子
     {
@@ -17,7 +17,7 @@ boolean PutChess(int *map, int turn)
     return 0;
 }
 
-void PrintBoard(int board[][_Length])
+void PrintBoard(unsigned char board[][_Length])
 {
     printf("  ");
     for (size_t i = 0; i < _Length - 2; i++)
@@ -75,7 +75,7 @@ void PrintBoard(int board[][_Length])
     }
 }
 
-short ChangeLine(int change, short loc)
+short ChangeLine(unsigned char change, short loc)
 {
     switch (change)
     {
@@ -98,7 +98,7 @@ short ChangeLine(int change, short loc)
     return loc;
 }
 
-short ChangeRow(int change, short loc)
+short ChangeRow(unsigned char change, short loc)
 {
     switch (change)
     {
