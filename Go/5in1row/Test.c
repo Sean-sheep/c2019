@@ -33,11 +33,11 @@ void EveryStep(unsigned char cover[][_Length][10], unsigned char board[][_Length
         {
             if (0 < board[i][t] && board[i][t] < 10)
             {
-                fprintf(fp, "%2d,", cover[i][t][0]);
+                fprintf(fp, "%2d.%-2d,", cover[i][t][0] , cover[i][t][9]);
             }
             else
             {
-                fprintf(fp, "%2c,", board[i][t]);
+                fprintf(fp, "  %c  ,", board[i][t]);
             }
         }
         fprintf(fp, "\n");
@@ -50,12 +50,12 @@ void EveryPoint(unsigned char cover[][_Length][10], struct Location loc, int tur
 {
     FILE *fp;
     fp = fopen("¼ÇÂ¼.txt", "a");
-    fprintf(fp, "X:%2c,Y:%2d,count:%d,white:", loc.X + 64, loc.Y, cover[loc.Y][loc.X][0]);
+    fprintf(fp, "X:%2c,Y:%2d,count:%d.%d,white:", loc.X + 64, loc.Y, cover[loc.Y][loc.X][0], cover[loc.Y][loc.X][9]);
     for (size_t i = 1; i < 5; i++)
     {
         fprintf(fp, "%2d", cover[loc.Y][loc.X][i]);
     }
-    fprintf(fp, "black:");
+    fprintf(fp, ",black:");
     for (size_t i = 5; i < 9; i++)
     {
         fprintf(fp, "%2d", cover[loc.Y][loc.X][i]);

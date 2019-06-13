@@ -1,6 +1,6 @@
 #include "Tic.h"
 
-char PutChess(char map, char *turn)
+char PutChess(char map, int *turn)
 {
     if (0 < map && map < 10)
     {

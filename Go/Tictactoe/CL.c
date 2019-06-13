@@ -41,6 +41,7 @@ short ChangeRow(char change, short loc)
             loc -= 1;
         }
         break;
+        
     default:
         break;
     }

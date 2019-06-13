@@ -1,39 +1,39 @@
 #include "Tic.h"
 
-void PrintBoard(Point board[][3])
+void PrintBoard(char board[][5])
 {
-    for (size_t i = 0; i < 3; i++)
+    for (size_t i = 1; i < 4; i++)
     {
-        for (size_t t = 0; t < 3; t++)
+        for (size_t t = 1; t < 4; t++)
         {
-            switch (board[i][t].outlook)
+            switch (board[i][t])
             {
             case 9:
-                printf("©¸");
+                printf("©¼");
                 break;
             case 8:
                 printf("©Ø");
                 break;
             case 7:
-                printf("©¼");
+                printf("©¸");
                 break;
             case 6:
-                printf("©À");
+                printf("©È");
                 break;
             case 5:
                 printf("©à");
                 break;
             case 4:
-                printf("©È");
+                printf("©À");
                 break;
             case 3:
-                printf("©°");
+                printf("©´");
                 break;
             case 2:
                 printf("©Ð");
                 break;
             case 1:
-                printf("©´");
+                printf("©°");
                 break;
             case 'B':
                 printf("¡ñ");
