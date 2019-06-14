@@ -1,348 +1,171 @@
 #include "Cover.h"
 
-struct Location AI(unsigned char cover[][_Length][10], unsigned char board[][_Length], int turn)
+short CountScoreOfMid(unsigned char cover[][_Length][10], struct Location loc, unsigned char option, unsigned char board[][_Length], char dY, char dX)
 {
-    struct Location ans;
-    struct Vertex vert;
-    struct Limit lmt;
-    unsigned char Subcover[Height][_Length][10] = {0}, Suboard[Height][_Length] = {0};
-    memcpy(Suboard, board, sizeof(Suboard));
-    memcpy(Subcover, cover, sizeof(Subcover));
-    vert = Decide(lmt, Subcover, Suboard, 0, 1);
-    ans.Y = vert.Y;
-    ans.X = vert.X;
-    return ans;
-}
+    unsigned char playerNum = option / 5 * 9, //白0,黑9
+        prevalue = cover[loc.Y][loc.X][playerNum];
+    cover[loc.Y][loc.X][playerNum] = 0;
 
-struct Vertex
-Decide(struct Limit lmt, unsigned char cover[][_Length][10], unsigned char board[][_Length], int found, unsigned char extro)
-{
-    unsigned char Subcover[Height][_Length][10] = {0}, Suboard[Height][_Length] = {0};
-    struct Location loc[Pool];
-    struct Vertex vert;
-    int value = 0, profit = 0, t = findPoints(cover, board, loc);
-
-    if (extro / 2 == Deep) //黑子收尾
+    for (size_t i = option / 5 * 5; i < option / 5 * 5 + 4; i++)
     {
-        int std = 10000;
-        for (size_t i = 0; i < t; i++)
-        {
-            memcpy(Suboard, board, sizeof(Suboard));
-            memcpy(Subcover, cover, sizeof(Subcover));
-            Suboard[loc[i].Y][loc[i].X] = 'B';
-            profit = DrawCover(Subcover, Suboard, loc[i], extro);
-            value = found + profit;
-            CountIncome(loc[i], profit, extro);
-            if (value < std)
-            {
-                std = value;
-                vert.value = std;
-                vert.Y = loc[i].Y;
-                vert.X = loc[i].X;
-            }
-        }
-        return vert;
-    }
-    if (extro % 2) //逢单白子，取最大值
-    {
-        int std = -10000;
-        for (size_t i = 0; i < t; i++)
-        {
-            memcpy(Suboard, board, sizeof(Suboard));
-            memcpy(Subcover, cover, sizeof(Subcover));
-            Suboard[loc[i].Y][loc[i].X] = 'W';
-            profit = DrawCover(Subcover, Suboard, loc[i], extro);
-            value = Decide(lmt, Subcover, Suboard, found + profit, extro + 1).value;
-            CountIncome(loc[i], profit, extro);
-            if (value > std)
-            {
-                std = value;
-                vert.value = std;
-                vert.Y = loc[i].Y;
-                vert.X = loc[i].X;
-            }
-        }
-        return vert;
-    }
-    else
-    {
-        int std = 10000;
-        for (size_t i = 0; i < t; i++)
-        {
-            memcpy(Suboard, board, sizeof(Suboard));
-            memcpy(Subcover, cover, sizeof(Subcover));
-            Suboard[loc[i].Y][loc[i].X] = 'B';
-            profit = DrawCover(Subcover, Suboard, loc[i], extro);
-            value = Decide(lmt, Subcover, Suboard, found + profit, extro + 1).value;
-            CountIncome(loc[i], profit, extro);
-            if (value < std)
-            {
-                std = value;
-                vert.value = std;
-                vert.Y = loc[i].Y;
-                vert.X = loc[i].X;
-            }
-        }
-        return vert;
-    }
-}
-
-// int
-// Decide(unsigned char cover[][_Length][10], unsigned char board[][_Length], struct Location *ansP, unsigned char extro)
-// {
-//     // if (extro != 1)
-//     // {
-//     //     for (size_t i = 1; i < Height - 1; i++)
-//     //     {
-//     //         for (size_t j = 1; j < _Length - 1; j++)
-//     //         {
-//     //             if (extro % 2)
-//     //             {
-//     //                 for (size_t k = 1; k < 5; k++)
-//     //                 {
-//     //                     if (cover[i][j][k] > 4)
-//     //                     {
-//     //                         return 10000;
-//     //                     }
-//     //                 }
-//     //             }
-//     //             else
-//     //             {
-//     //                 for (size_t k = 5; k < 9; k++)
-//     //                 {
-//     //                     if (cover[i][j][k] > 4)
-//     //                     {
-//     //                         return 10000;
-//     //                     }
-//     //                 }
-//     //             }
-//     //         }
-//     //     }
-//     // }
-
-//     int value = 1, rslt = 0;
-
-//     if (extro / 2 == Deep)
-//     {
-//         struct Location loc;
-
-//         for (size_t i = 1; i < Height - 1; i++)
-//         {
-//             for (size_t j = 1; j < _Length - 1; j++)
-//             {
-//                 if (board[i][j] > 0 && board[i][j] < 10 && cover[i][j][0] >= value)
-//                 {
-//                     value = cover[i][j][0];
-//                     // for (size_t k = 5 - (extro % 2) * 4; k < 9 - (extro % 2) * 4; k++)
-//                     // {
-//                     //     if (cover[i][j][k] > 3)
-//                     //     {
-//                     //         value = 1000;
-//                     //     }
-//                     // }
-//                     loc.Y = i;
-//                     loc.X = j;
-//                 }
-//             }
-//         }
-//         CountIncome(loc, value, extro);
-//     }
-//     else
-//     {
-//         value = -10000;
-//         struct Location loc[Pool];
-//         struct Node ans;
-//         unsigned char Subcover[Height][_Length][10] = {0}, Suboard[Height][_Length] = {0};
-
-//         for (size_t i = 0; i < findPoints(cover, board, loc); i++)
-//         {
-//             // value = max(value, cover[loc[i].Y][loc[i].X][0]);
-//             memcpy(Suboard, board, sizeof(Suboard));
-//             memcpy(Subcover, cover, sizeof(Subcover));
-//             Suboard[loc[i].Y][loc[i].X] = (extro % 2) ? 'W' : 'B';
-//             DrawCover(Subcover, Suboard, loc[i], extro);
-//             // value = max(value, cover[loc[i].Y][loc[i].X][0] - Decide(Subcover, Suboard, extro + 1));
-//             rslt = cover[loc[i].Y][loc[i].X][0] - Decide(Subcover, Suboard, ansP, extro + 1);
-
-//             CountIncome(loc[i], rslt, extro);
-
-//             if (rslt > value)
-//             {
-//                 value = rslt;
-//                 // for (size_t k = 5 - (extro % 2) * 4; k < 9 - (extro % 2) * 4; k++)
-//                 // {
-//                 //     if (cover[loc[i].Y][loc[i].X][k] > 3)
-//                 //     {
-//                 //         value = 1000;
-//                 //     }
-//                 // }
-//                 if (extro == 1)
-//                 {
-//                     *ansP = loc[i];
-//                 }
-//             }
-//         }
-//     }
-//     return value;
-// }
-
-unsigned char findPoints(unsigned char cover[][_Length][10], unsigned char board[][_Length], struct Location loc[])
-{
-    char t = 0, value = 1;
-    // unsigned char t = 0, values[Pool + 1] = {255};
-    // values[Pool] = 1;
-
-    for (size_t i = 1; i < Height - 1; i++)
-    {
-        for (size_t j = 1; j < _Length - 1; j++)
-        {
-            // if (board[i][j] > 0 && board[i][j] < 10 && cover[i][j][0] >= values[Pool])
-            // {
-            //     for (size_t k = Pool - 1; k >= 0; k--)
-            //     {
-            //         if (cover[i][j][0] <= values[k]) //如果小于等于就把值赋给后项
-            //         {
-            //             values[k] = cover[i][j][0];
-            //             t = max(t, k + 1);
-            //             loc[k].Y = i;
-            //             loc[k].X = j;
-            //             break;
-            //         }
-            //     }
-            // }
-
-            if (board[i][j] > 0 && board[i][j] < 10 && cover[i][j][0] + cover[i][j][9] >= (value + 1) / 2)
-            {
-                if (cover[i][j][0] > value)
-                {
-                    value = cover[i][j][0];
-                    t = 0;
-                }
-                loc[t].Y = i;
-                loc[t].X = j;
-                t = (t + 1) % Pool;
-                // t = (t == (Pool - 1)) ? 0 : t + 1;
-                // value = max(value, cover[i][j][0]);
-            }
-        }
-    }
-    return t;
-}
-// struct Location AI(int cover[][_Length][10], int board[][_Length], int turn)
-// {
-//     int t = 0, value = 1;
-//     // struct Location altLoc[Pool];
-//     struct Location altLoc[Pool], loc[Pool];
-//     int Subcover[Height][_Length][10] = {0}, Suboard[Height][_Length] = {0};
-
-//     for (size_t i = 1; i < Height - 1; i++)
-//     {
-//         for (size_t j = 1; j < _Length - 1; j++)
-//         {
-//             if (board[i][j] > 0 && board[i][j] < 10 && cover[i][j][0] >= value)
-//             {
-//                 if (cover[i][j][0] > value)
-//                 {
-//                     t = 0;
-//                     value = cover[i][j][0];
-//                 }
-//                 altLoc[t].Y = i;
-//                 altLoc[t].X = j;
-//                 t = (t == Pool - 1) ? 0 : t + 1;
-//                 // value = max(value, cover[i][j][0]);
-//             }
-//         }
-//     }
-
-//     // // return Decide(cover, board, altLoc, 0);
-//     // value = 0;
-//     // int h = 0, benefit = 0;
-//     // for (size_t i = 0; i < t; i++)
-//     // {
-//     //     memcpy(Suboard, board, sizeof(Suboard));
-//     //     memcpy(Subcover, cover, sizeof(Subcover));
-//     //     benefit = cover[altLoc[i].Y][altLoc[i].X][0] * 10 + DrawCover(Subcover, Suboard, altLoc[i], turn + 1);
-//     //     // memcpy(Suboard, board, sizeof(Suboard));
-//     //     // memcpy(Subcover, cover, sizeof(Subcover));
-//     //     // benefit += DrawCover(Subcover, Suboard, altLoc[i], turn);
-//     //     CountIncome(altLoc[i], benefit);
-//     //     if (benefit > value)
-//     //     {
-//     //         value = benefit;
-//     //         loc[h++] = altLoc[i];
-//     //     }
-//     // }
-
-//     // h = (rand() % h);
-//     // return loc[h];
-
-//     t = (rand() % t);
-//     return altLoc[t];
-// }
-
-short CountScore(unsigned char cover[][_Length][10], struct Location loc, unsigned char option, unsigned char prevalue, unsigned char board[][_Length], char dY, char dX)
-{
-    // cover[loc.Y][loc.X][player] - ??(prevalue);
-    // cover[loc.Y][loc.X][player] + ??(cover[loc.Y][loc.X][option])
-
-    //第二遍重写了……呜呜呜呜
-    unsigned char player = 0, countpart = 0, prevalueW = cover[loc.Y][loc.X][0], prevalueB = cover[loc.Y][loc.X][9];
-    cover[loc.Y][loc.X][9] = cover[loc.Y][loc.X][0] = 0;
-
-    for (size_t i = 1; i < 9; i++)
-    {
-        player = i / 5 * 9;
         switch (cover[loc.Y][loc.X][i])
         {
-        case 0:
-            break;
-
-        case 1:
-            cover[loc.Y][loc.X][player] += one;
-            break;
-
         case 2:
-            countpart = board[loc.Y - dY * 3][loc.X - dX * 3];
-            if (0 < countpart && countpart < 10)
-            {
-                cover[loc.Y][loc.X][player] += two;
-            }
-            else
-            {
-                cover[loc.Y][loc.X][player] += half_two;
-            }
+            cover[loc.Y][loc.X][playerNum] += half_two;
             break;
 
         case 3:
-            countpart = board[loc.Y - dY * 4][loc.X - dX * 4];
-            if (0 < countpart && countpart < 10)
-            {
-                cover[loc.Y][loc.X][player] += three;
-            }
-            else
-            {
-                cover[loc.Y][loc.X][player] += half_three;
-            }
-            break;
-
-        case 4:
-            countpart = board[loc.Y - dY * 5][loc.X - dX * 5];
-            if (0 < countpart && countpart < 10)
-            {
-                cover[loc.Y][loc.X][player] += four;
-            }
-            else
-            {
-                cover[loc.Y][loc.X][player] += half_four;
-            }
+            cover[loc.Y][loc.X][playerNum] += half_three;
             break;
 
         default:
-            cover[loc.Y][loc.X][player] += five;
+            cover[loc.Y][loc.X][playerNum] += half_four;
             break;
         }
     }
-    return cover[loc.Y][loc.X][0] - prevalueW + prevalueB - cover[loc.Y][loc.X][9]; //白方收益减去黑方收益
+    return playerNum ? prevalue - cover[loc.Y][loc.X][playerNum] : cover[loc.Y][loc.X][playerNum] - prevalue;
+}
+
+short CountScore(unsigned char cover[][_Length][10], struct Location loc, unsigned char option, unsigned char prevalueOfDrct, unsigned char board[][_Length], char dY, char dX)
+{
+    unsigned char countpart = 0,    //线的另一头
+        playerNum = option / 5 * 9, //白0,黑9
+                                    // player = playerNum ? 'B' : 'W',
+        prevalue = cover[loc.Y][loc.X][playerNum];
+
+    switch (prevalueOfDrct)
+    {
+    case 0:
+        break;
+
+    case 1:
+        cover[loc.Y][loc.X][playerNum] -= one;
+        break;
+
+    case 2:
+        cover[loc.Y][loc.X][playerNum] -= two;
+        break;
+
+    case 3:
+        cover[loc.Y][loc.X][playerNum] -= three;
+        break;
+
+    case 4:
+        cover[loc.Y][loc.X][playerNum] -= four;
+        break;
+
+    default:
+        break;
+    }
+    switch (cover[loc.Y][loc.X][option])
+    {
+    case 0:
+        break;
+
+    case 1:
+        cover[loc.Y][loc.X][playerNum] += one;
+        break;
+
+    case 2:
+        countpart = board[loc.Y - dY * 3][loc.X - dX * 3];
+        if (0 < countpart && countpart < 10)
+        {
+            cover[loc.Y][loc.X][playerNum] += two;
+        }
+        else
+        {
+            cover[loc.Y][loc.X][playerNum] += half_two;
+        }
+        break;
+
+    case 3:
+        countpart = board[loc.Y - dY * 4][loc.X - dX * 4];
+        if (0 < countpart && countpart < 10)
+        {
+            cover[loc.Y][loc.X][playerNum] += three;
+        }
+        else
+        {
+            cover[loc.Y][loc.X][playerNum] += half_three;
+        }
+        break;
+
+    case 4:
+        countpart = board[loc.Y - dY * 5][loc.X - dX * 5];
+        if (0 < countpart && countpart < 10)
+        {
+            cover[loc.Y][loc.X][playerNum] += four;
+        }
+        else
+        {
+            cover[loc.Y][loc.X][playerNum] += half_four;
+        }
+        break;
+
+    default:
+        cover[loc.Y][loc.X][playerNum] += five;
+        break;
+    }
+    return playerNum ? prevalue - cover[loc.Y][loc.X][playerNum] : cover[loc.Y][loc.X][playerNum] - prevalue;
+
+    //第二遍重写了……呜呜呜呜
+    // unsigned char player = 0, countpart = 0, prevalueW = cover[loc.Y][loc.X][0], prevalueB = cover[loc.Y][loc.X][9];
+    // cover[loc.Y][loc.X][9] = cover[loc.Y][loc.X][0] = 0;
+
+    // for (size_t i = 1; i < 9; i++)
+    // {
+    //     player = i / 5 * 9;
+    //     switch (cover[loc.Y][loc.X][i])
+    //     {
+    //     case 0:
+    //         break;
+
+    //     case 1:
+    //         cover[loc.Y][loc.X][player] += one;
+    //         break;
+
+    //     case 2:
+    //         countpart = board[loc.Y - dY * 3][loc.X - dX * 3];
+    //         if (0 < countpart && countpart < 10)
+    //         {
+    //             cover[loc.Y][loc.X][player] += two;
+    //         }
+    //         else
+    //         {
+    //             cover[loc.Y][loc.X][player] += half_two;
+    //         }
+    //         break;
+
+    //     case 3:
+    //         countpart = board[loc.Y - dY * 4][loc.X - dX * 4];
+    //         if (0 < countpart && countpart < 10)
+    //         {
+    //             cover[loc.Y][loc.X][player] += three;
+    //         }
+    //         else
+    //         {
+    //             cover[loc.Y][loc.X][player] += half_three;
+    //         }
+    //         break;
+
+    //     case 4:
+    //         countpart = board[loc.Y - dY * 5][loc.X - dX * 5];
+    //         if (0 < countpart && countpart < 10)
+    //         {
+    //             cover[loc.Y][loc.X][player] += four;
+    //         }
+    //         else
+    //         {
+    //             cover[loc.Y][loc.X][player] += half_four;
+    //         }
+    //         break;
+
+    //     default:
+    //         cover[loc.Y][loc.X][player] += five;
+    //         break;
+    //     }
+    // }
+    // return cover[loc.Y][loc.X][0] - prevalueW + prevalueB - cover[loc.Y][loc.X][9]; //白方收益减去黑方收益
 
     // // cover[loc.Y][loc.X][0] = cover[loc.Y][loc.X][9] = 0;
     // // int prevalue = cover[loc.Y][loc.X][0];
@@ -436,7 +259,7 @@ short ChangeSocreOfLine(unsigned char cover[][_Length][10], unsigned char board[
 
     if (board[loc.Y + Y][loc.X + X] > 0 && board[loc.Y + Y][loc.X + X] < 10) //下个点没子
     {
-        unsigned char prevalueOfDrct = cover[loc.Y + Y][loc.X + X][option]; //储存下个点的方向分
+        unsigned char prevalueOfDrct = cover[loc.Y + Y][loc.X + X][option]; //储存下个点原来的方向分
         cover[loc.Y + Y][loc.X + X][option] = cover[loc.Y][loc.X][option];  //将本点方向分赋给下个点
 
         // if (board[loc.Y + 2 * Y][loc.X + 2 * X] > 0 && board[loc.Y + 2 * Y][loc.X + 2 * X] < 10) //下下点也没子
@@ -454,7 +277,7 @@ short ChangeSocreOfLine(unsigned char cover[][_Length][10], unsigned char board[
         //     cover[loc.Y + Y][loc.X + X][option] += cover[loc.Y + 2 * Y][loc.X + 2 * X][option];
         // }
 
-        switch ((O * 2 + WW) * 2 + BB)
+        switch ((O * 2 + WW) * 2 + BB) //判断是不是间点
         {
         case 0b110: // if (option >= 1 && option <= 4 && board[loc.Y + 2 * Y][loc.X + 2 * X] == 'W')
             cover[loc.Y + Y][loc.X + X][option] += cover[loc.Y + 2 * Y][loc.X + 2 * X][option];
@@ -465,11 +288,11 @@ short ChangeSocreOfLine(unsigned char cover[][_Length][10], unsigned char board[
             break;
 
         default: //下下点没同色子
-            loc.Y += Y;
-            loc.X += X;
-            return CountScore(cover, loc, option, prevalueOfDrct, board, Y, X);
             break;
         }
+        loc.Y += Y;
+        loc.X += X;
+        return CountScore(cover, loc, option, prevalueOfDrct, board, Y, X);
     }
 
     // else if (option >= 1 && option <= 4 && board[loc.Y + Y][loc.X + X] == 'W')

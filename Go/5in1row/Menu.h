@@ -1,7 +1,7 @@
 #if !defined(_Menu_H)
 #define Menu_H
 
-// #include "AI.h"
+#include "AI.h"
 #include "Win.h"
 #include "Test.h"
 #include "Const.h"

@@ -5,7 +5,7 @@
 #define _Length 17
 #define Score 5
 #define Pool 20
-#define Deep 1
+#define Deep 3
 
 #define five 255
 #define four 64
@@ -13,9 +13,9 @@
 #define two 4
 #define one 1
 
-#define half_four 16
-#define half_three 4
-#define half_two 1
+#define half_four 32
+#define half_three 8
+#define half_two 2
 
 struct Location
 {

@@ -137,9 +137,9 @@ boolean TwoPlayer(unsigned char board[Height][_Length], int turn, boolean win, s
             {
                 loc.Y = coord.Y;
                 loc.X = coord.X / 2;
+                DrawCover(cover, board, loc, turn);
                 EveryPoint(cover, loc, turn); //Test
                 EveryStep(cover, board);      //Test
-                DrawCover(cover, board, loc, turn);
                 win = WinCheck(cover, loc, turn);
                 ChangeBoard(turn);
                 SetConsoleCursorPosition(handle_out, coord);
@@ -168,9 +168,9 @@ boolean SinglePlayer(unsigned char board[Height][_Length], int turn, boolean win
         {
             loc = AI(cover, board, turn);
             PutChess(&board[loc.Y][loc.X], turn);
+            DrawCover(cover, board, loc, turn);
             EveryPoint(cover, loc, turn); //Test
             EveryStep(cover, board);      //Test
-            DrawCover(cover, board, loc, turn);
             win = WinCheck(cover, loc, turn);
             coord.Y = loc.Y;
             coord.X = loc.X * 2;
@@ -208,9 +208,9 @@ boolean SinglePlayer(unsigned char board[Height][_Length], int turn, boolean win
                 {
                     loc.Y = coord.Y;
                     loc.X = coord.X / 2;
+                    DrawCover(cover, board, loc, turn);
                     EveryPoint(cover, loc, turn); //Test
                     EveryStep(cover, board);      //Test
-                    DrawCover(cover, board, loc, turn);
                     win = WinCheck(cover, loc, turn);
                     ChangeBoard(turn);
                     SetConsoleCursorPosition(handle_out, coord);
