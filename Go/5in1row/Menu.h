@@ -3,7 +3,7 @@
 
 #include "AI.h"
 #include "Win.h"
-#include "Test.h"
+// #include "Test.h"
 #include "Const.h"
 #include "Cover.h"
 #include "PrintAndChange.h"
